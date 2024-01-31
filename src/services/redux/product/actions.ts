@@ -22,7 +22,7 @@ const { Types, Creators } = createActions(
     deleteProductSuccess: ['data'],
     deleteProductFailure: ['error'],
 
-    setSelectedProduct: ['airline'],
+    setSelectedProduct: ['data'],
 
     resetProduct: null
   }

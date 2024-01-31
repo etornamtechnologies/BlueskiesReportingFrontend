@@ -50,12 +50,8 @@ export function* putProduct(action: IProductAction) {
   const { id, payload } = action
   console.log('payload saga', payload)
   try {
-    const response: IApiResponseDTO<IProduct> = yield call(apiService.putProduct, id, payload)
-    if(response.code === 200) {
-      yield put(Creators.putProductSuccess(response.data))
-    } else {
-      yield put(Creators.putProductFailure(response.message))
-    }
+    const response: IProduct = yield call(apiService.putProduct, id, payload)
+    yield put(Creators.putProductSuccess(response))
   } catch(error: any | unknown) {
     yield put(Creators.putProductFailure(getErrorMessageFromApiError(error)))
   }

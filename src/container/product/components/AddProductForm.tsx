@@ -18,7 +18,7 @@ export type ProductFormFieldType = {
   quantityPerPack: number
   measurementUnit: string
   weight: number
-  packWeightInKg: number
+  // packWeightInKg: number
   productCategoryId: string
 }
 
@@ -85,17 +85,17 @@ const AddProductForm: React.FC<Props> = ({
         >
           <Input />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           label='Pack Weight in Kg'
           name='packWeightInKg'
         >
           <Input />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item<ProductFormFieldType>
           label='Description'
           name='description'
         >
-          <Input.TextArea rows={5} placeholder="Description..."/>
+          <Input.TextArea rows={2} placeholder="Description..."/>
         </Form.Item>
         <Button type='primary' htmlType='submit' loading={submitting}>
           {submitBtnText}

@@ -1,6 +1,7 @@
 import { ColumnsType } from "antd/es/table"
-import { Button, Col, Row, Space, Tooltip, Table } from "antd"
+import { Col, Row, Space, Tooltip, Table } from "antd"
 import { IProduct } from "../../../models/product.model"
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 
 type Props = {
   products: Array<IProduct>
@@ -25,6 +26,27 @@ const ProductList: React.FC<Props> = ({
       key: 'name'
     },
     {
+      title: 'Product Category',
+      dataIndex: 'productCategory',
+      key: 'productCategory',
+      render: (text, row) => row.productCategory?.name
+    },
+    {
+      title: 'Measurement Unit',
+      dataIndex: 'measurementUnits',
+      key: 'measurementUnits',
+    },
+    {
+      title: 'Weight',
+      dataIndex: 'weight',
+      key: 'weight',
+    },
+    {
+      title: 'Pack Weight In Kg',
+      dataIndex: 'packWeightInKg',
+      key: 'packWeightInKg',
+    },
+    {
       title: 'Description',
       dataIndex: 'description',
       key: 'description'
@@ -36,10 +58,10 @@ const ProductList: React.FC<Props> = ({
       render: (text, row) => (
         <Space wrap>
           <Tooltip title='Edit'>
-            <Button onClick={() => onEdit(row)}>Edit</Button>
+            <EditOutlined style={{ color: 'black' }} onClick={() => onEdit(row)}/>
           </Tooltip>
           <Tooltip title='Delete'>
-            <Button onClick={() => onDelete(row)}>Delete</Button>
+            <DeleteOutlined style={{ color: 'red' }} onClick={() => onDelete(row)} />
           </Tooltip>
         </Space>
       )

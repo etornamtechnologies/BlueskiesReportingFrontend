@@ -51,10 +51,10 @@ const ProductIndex: React.FC = () => {
     const payload: ICreateProductRequest = {
       name: values.name,
       description: values.description,
-      weight: 0,
+      weight: values.weight,
       measurementUnits: values.measurementUnit,
-      quantityPerPack: 0,
-      productCategoryId: ""
+      quantityPerPack: values.quantityPerPack,
+      productCategoryId: values.productCategoryId
     }
     dispatch(Creators.putProduct(selected_product?.id, payload))
   }
@@ -97,6 +97,7 @@ const ProductIndex: React.FC = () => {
         tooltip='Add new' 
         icon={<PlusOutlined/>} 
         onClick={() => {
+          createForm.resetFields()
           setCreateVisible(true)
         }}
       />
@@ -110,7 +111,7 @@ const ProductIndex: React.FC = () => {
               editForm.setFieldsValue({
                 name: row?.name, 
                 description: row.description,
-                weight: 0,
+                weight: row.weight,
                 measurementUnit: row.measurementUnits,
                 quantityPerPack: row?.quantityPerPack as number,
                 packWeightInKg: row?.packWeightInKg as number,
@@ -142,7 +143,6 @@ const ProductIndex: React.FC = () => {
             weight: 0,
             measurementUnit: Measurementunits.GRAM.toString(),
             quantityPerPack: 0,
-            packWeightInKg: 0,
             productCategoryId: ''
            }}
           onSubmit={handleCreateSubmit}
@@ -170,7 +170,6 @@ const ProductIndex: React.FC = () => {
             weight: 0,
             measurementUnit: Measurementunits.GRAM.toString(),
             quantityPerPack: selected_product?.quantityPerPack as number,
-            packWeightInKg: selected_product?.packWeightInKg as number,
             productCategoryId: selected_product?.productCategory?.id as string
            }}
           onSubmit={handleEditSubmit}
