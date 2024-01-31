@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { applicationConfig } from '../../config/app.config'
 import { getAccessTokenFromLocalStorage } from "../../utils/common.helper";
@@ -29,21 +30,20 @@ class ApiService {
         return
       } else if (error?.code === '"ERR_BAD_REQUEST"') {
         console.error("BAD REQUEST")
-        
       }
-      const responseData = error?.response?.data as any
-      const errorMessage = responseData?.message || error?.message
+      //const responseData = error?.response?.data as any
+      //const errorMessage = responseData?.message || error?.message
       if(error?.response?.status === 401) {
         window.location.replace('/auth/login')
       }
-      //Promise.reject(error)
+      Promise.reject(error)
     })
   }
 
-  public async axiosCall<T>(config: AxiosRequestConfig): Promise<IApiResponseDTO<T>> {
+  public async axiosCall<T>(config: AxiosRequestConfig): Promise<T> {
     try {
-      const { data } = await this.axiosInstance.request<IApiResponseDTO<T>>(config)
-      return Promise.resolve(data)
+      const response = await this.axiosInstance.request<IApiResponseDTO<T>>(config)
+      return Promise.resolve(response.data as T)
     } catch (error) {
       return Promise.reject(error)
     }

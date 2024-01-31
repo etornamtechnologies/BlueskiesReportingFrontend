@@ -2,21 +2,19 @@ import { all, call, put, takeLatest, takeLeading } from 'redux-saga/effects'
 import { Types, Creators } from '../../redux/customer/actions'
 import ApiService from '../../api/customer.api'
 import { getErrorMessageFromApiError } from '../../../utils/common.helper'
+// eslint-disable-next-line
 import { AxiosError } from 'axios'
 import { ICustomer, ICustomerAction, ICustomerQueryParams } from '../../../models/customer.model'
+import { message } from 'antd'
 
 const apiService: ApiService = new ApiService()
 
 export function* fetchCustomers(action: ICustomerAction) {
   const { query } = action
   try {
-    const response: IApiResponseDTO<ICustomer[]> = yield call(apiService.fetchCustomers, query as ICustomerQueryParams)
-    if(response.code === 200) {
-      console.log('bo-users', response.data)
-      yield put(Creators.fetchCustomersSuccess(response.data))
-    } else {
-      yield put(Creators.fetchCustomersFailure(response.message))
-    }
+    const response: IPaginatedData<ICustomer[]> = yield call(apiService.fetchCustomers, query as ICustomerQueryParams)
+    console.log('response customers', response)
+    yield put(Creators.fetchCustomersSuccess(response))
   } catch(error: AxiosError | unknown) {
     const errorMessage = getErrorMessageFromApiError(error) || 'Network Error!'
     yield put(Creators.fetchCustomersFailure(errorMessage))
@@ -43,11 +41,8 @@ export function* postCustomer(action: ICustomerAction) {
   const { payload } = action
   try {
     const response: IApiResponseDTO<ICustomer> = yield call(apiService.postCustomer, payload)
-    if(response.code === 200) {
-      yield put(Creators.postCustomerSuccess(response.data))
-    } else {
-      yield put(Creators.postCustomerFailure(response.message))
-    }
+    yield put(Creators.postCustomerSuccess(response))
+    message.success("Customer created successfully")
   } catch(error: any | unknown) {
     yield put(Creators.postCustomerFailure(getErrorMessageFromApiError(error)))
   }
@@ -56,13 +51,11 @@ export function* postCustomer(action: ICustomerAction) {
 export function* putCustomer(action: ICustomerAction) {
   const { id, payload } = action
   console.log('payload saga', payload)
+  console.log('id saga', id)
   try {
     const response: IApiResponseDTO<ICustomer> = yield call(apiService.putCustomer, id, payload)
-    if(response.code === 200) {
-      yield put(Creators.putCustomerSuccess(response.data))
-    } else {
-      yield put(Creators.putCustomerFailure(response.message))
-    }
+    yield put(Creators.putCustomerSuccess(response))
+    message.success("Customer updated")
   } catch(error: any | unknown) {
     yield put(Creators.putCustomerFailure(getErrorMessageFromApiError(error)))
   }
@@ -72,11 +65,8 @@ export function* deleteCustomer(action: ICustomerAction) {
   const { id } = action
   try {
     const response: IApiResponseDTO<ICustomer> = yield call(apiService.deleteCustomer, id)
-    if(response.code === 200) {
-      yield put(Creators.deleteCustomerSuccess(response.data))
-    } else {
-      yield put(Creators.deleteCustomerFailure(response.message))
-    }
+    yield put(Creators.deleteCustomerSuccess(response.data))
+    message.success("Customer deleted!")
   } catch(error: any | unknown) {
     yield put(Creators.deleteCustomerFailure(getErrorMessageFromApiError(error)))
   }

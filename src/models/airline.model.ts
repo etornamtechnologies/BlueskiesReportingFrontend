@@ -19,6 +19,7 @@ export interface IAirlineQueryParams extends QueryParams {
 export interface IAirlineState {
   fetching: boolean
   airlines: Array<IAirline>
+  has_next: boolean
   airline: IAirline | null
   selected_airline: IAirline | null
   error: string
@@ -30,7 +31,7 @@ export interface IAirlineAction {
   type: string
   query?: IAirlineQueryParams
   payload?: IPostAirlineRequest
-  data?: IAirline | Array<IAirline>
+  data?: IAirline | Array<IAirline> | IPaginatedData<IAirline[]>
   filter?: string
   [other: string]: any
   error?: string

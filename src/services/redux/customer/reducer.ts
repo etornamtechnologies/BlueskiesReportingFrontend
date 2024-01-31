@@ -6,6 +6,7 @@ import { ICustomer, ICustomerAction, ICustomerState } from '../../../models/cust
 export const INITIAL_STATE: ICustomerState = {
   fetching: false,
   customers: [],
+  has_next: false,
   customer: null,
   selected_customer: null,
   error: '',
@@ -22,12 +23,13 @@ export const fetchCustomers = (state = INITIAL_STATE, action: ICustomerAction): 
   }
 }
 
-export const fetchCustomersSuccess = (state = INITIAL_STATE, action: { data: ICustomer[], message: string }): ICustomerState => {
-  const { data } = action
+export const fetchCustomersSuccess = (state = INITIAL_STATE, action: ICustomerAction): ICustomerState => {
+  const { hasNext, data } = action.data as IPaginatedData<ICustomer[]>
   return {
     ...state,
     fetching: false,
-    customers: data
+    customers: data,
+    has_next: hasNext
   }
 }
 
@@ -159,8 +161,8 @@ export const deleteCustomerFailure = (state = INITIAL_STATE, actions: ICustomerA
 
 
 
-export const setSelectedCustomer = (state = INITIAL_STATE, action: { data: ICustomer }): ICustomerState => {
-  const data = action.data as ICustomer
+export const setSelectedCustomer = (state = INITIAL_STATE, action: ICustomerAction): ICustomerState => {
+  const data  = action.data as ICustomer
   return {
     ...state,
     selected_customer: data

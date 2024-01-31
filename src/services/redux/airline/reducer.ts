@@ -6,6 +6,7 @@ import { IAirline, IAirlineAction, IAirlineState } from '../../../models/airline
 export const INITIAL_STATE: IAirlineState = {
   fetching: false,
   airlines: [],
+  has_next: false,
   airline: null,
   selected_airline: null,
   error: '',
@@ -22,12 +23,14 @@ export const fetchAirlines = (state = INITIAL_STATE, action: IAirlineAction): IA
   }
 }
 
-export const fetchAirlinesSuccess = (state = INITIAL_STATE, action: { data: IAirline[], message: string }): IAirlineState => {
-  const { data } = action
+export const fetchAirlinesSuccess = (state = INITIAL_STATE, action: IAirlineAction): IAirlineState => {
+ 
+  const data = action.data as IAirline[]
+  console.log('airline reducer fetch success', action)
   return {
     ...state,
     fetching: false,
-    airlines: data
+    airlines: data,
   }
 }
 

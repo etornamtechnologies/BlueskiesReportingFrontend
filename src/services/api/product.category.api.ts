@@ -1,38 +1,40 @@
 
-import { IProductCategory, IProductCategoryQueryParams } from '../../models/product.category.model'
+import { ICreateProductCategoryRequest, IProductCategory, IProductCategoryQueryParams } from '../../models/product.category.model'
 import apiService from './api.service'
 
 class ProductCategoryApiService {
 
-  public async fetchProductCategories(query: IProductCategoryQueryParams): Promise<IApiResponseDTO<IProductCategory[]>> {
-    return apiService.axiosCall<IProductCategory[]>({
+  public async fetchProductCategories(query: IProductCategoryQueryParams): Promise<IPaginatedData<IProductCategory[]>> {
+    return apiService.axiosCall<IPaginatedData<IProductCategory[]>>({
       method: 'GET',
-      url: `/productCategorie`
-    })
-  }
-
-  public async fetchProductCategoryById(id: number): Promise<IApiResponseDTO<IProductCategory[]>> {
-    return apiService.axiosCall<IProductCategory[]>({
-      method: 'GET',
-      url: `/productCategories/${id}`
-    })
-  }
-
-  public async postProductCategory(payload: any): Promise<IApiResponseDTO<IProductCategory>> {
-    return apiService.axiosCall<IProductCategory>({
-      method: 'POST',
       url: `/productCategories`
     })
   }
 
-  public async putProductCategory(id: string, payload: any): Promise<IApiResponseDTO<IProductCategory>> {
+  public async fetchProductCategoryById(id: number): Promise<IProductCategory> {
     return apiService.axiosCall<IProductCategory>({
-      method: 'PUT',
+      method: 'GET',
       url: `/productCategories/${id}`
     })
   }
 
-  public async deleteProductCategory(id: string): Promise<IApiResponseDTO<IProductCategory>> {
+  public async postProductCategory(payload: ICreateProductCategoryRequest): Promise<IProductCategory> {
+    return apiService.axiosCall<IProductCategory>({
+      method: 'POST',
+      url: `/productCategories`,
+      data: payload
+    })
+  }
+
+  public async putProductCategory(id: string, payload: any): Promise<IProductCategory> {
+    return apiService.axiosCall<IProductCategory>({
+      method: 'PUT',
+      url: `/productCategories/${id}`,
+      data: payload
+    })
+  }
+
+  public async deleteProductCategory(id: string): Promise<IProductCategory> {
     return apiService.axiosCall<IProductCategory>({
       method: 'DELETE',
       url: `/productCategories/${id}`

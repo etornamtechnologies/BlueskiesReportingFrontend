@@ -6,6 +6,7 @@ import { IProductCategory, IProductCategoryAction, IProductCategoryState } from 
 export const INITIAL_STATE: IProductCategoryState = {
   fetching: false,
   product_categories: [],
+  has_next: false,
   product_category: null,
   selected_product_category: null,
   error: '',
@@ -22,12 +23,14 @@ export const fetchProductCategories = (state = INITIAL_STATE, action: IProductCa
   }
 }
 
-export const fetchProductCategoriesSuccess = (state = INITIAL_STATE, action: { data: IProductCategory[], message: string }): IProductCategoryState => {
-  const { data } = action
+export const fetchProductCategoriesSuccess = (state = INITIAL_STATE, action: IProductCategoryAction): IProductCategoryState => {
+  const { hasNext, data } = action.data as IPaginatedData<IProductCategory[]>
+
   return {
     ...state,
     fetching: false,
-    product_categories: data
+    product_categories: data,
+    has_next: hasNext
   }
 }
 
@@ -172,6 +175,7 @@ export const resetProductCategory = (state = INITIAL_STATE, action: { data: IPro
     ...state,
     fetching: false,
     product_categories: [],
+    has_next: false,
     product_category: null,
     selected_product_category: null,
     error: '',

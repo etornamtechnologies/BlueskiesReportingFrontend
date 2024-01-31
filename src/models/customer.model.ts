@@ -24,6 +24,7 @@ export interface ICustomerQueryParams extends QueryParams {
 export interface ICustomerState {
   fetching: boolean
   customers: Array<ICustomer>
+  has_next: boolean
   customer: ICustomer | null
   selected_customer: ICustomer | null
   error: string
@@ -35,7 +36,7 @@ export interface ICustomerAction {
   type: string
   query?: ICustomerQueryParams
   payload?: IPostCustomerRequest
-  data?: ICustomer | Array<ICustomer>
+  data?: ICustomer | Array<ICustomer> | IPaginatedData<ICustomer[]>
   filter?: string
   [other: string]: any
   error?: string

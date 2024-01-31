@@ -6,6 +6,7 @@ import { IProduct, IProductAction, IProductState } from '../../../models/product
 export const INITIAL_STATE: IProductState = {
   fetching: false,
   products: [],
+  has_next: false,
   product: null,
   selected_product: null,
   error: '',
@@ -14,24 +15,26 @@ export const INITIAL_STATE: IProductState = {
 }
 
 
-// ======== FETCH ALL CUSTOMERS =======
-export const fetchAirlines = (state = INITIAL_STATE, action: IProductAction): IProductState => {
+// ======== FETCH ALL PRODUCTS =======
+export const fetchProducts = (state = INITIAL_STATE, action: IProductAction): IProductState => {
   return {
     ...state,
     fetching: true
   }
 }
 
-export const fetchAirlinesSuccess = (state = INITIAL_STATE, action: { data: IProduct[], message: string }): IProductState => {
-  const { data } = action
+export const fetchProductsSuccess = (state = INITIAL_STATE, action: IProductAction): IProductState => {
+  console.log('reducer fetch prodctio action', action)
+  const { hasNext, data } = action.data as IPaginatedData<IProduct[]>
   return {
     ...state,
     fetching: false,
-    products: data
+    products: data,
+    has_next: hasNext
   }
 }
 
-export const fetchAirlinesFailure = (state = INITIAL_STATE, action: IProductAction): IProductState => {
+export const fetchProductsFailure = (state = INITIAL_STATE, action: IProductAction): IProductState => {
   return {
     ...state,
     fetching: false,
@@ -39,15 +42,15 @@ export const fetchAirlinesFailure = (state = INITIAL_STATE, action: IProductActi
   }
 }
 
-// ============== GET CUSTOMER =========
-export const fetchAirline = (state = INITIAL_STATE, action: IProductAction): IProductState => {
+// ============== GET PRODUCT =========
+export const fetchProduct = (state = INITIAL_STATE, action: IProductAction): IProductState => {
   return {
     ...state,
     fetching: true
   }
 }
 
-export const fetchAirlineSuccess = (state = INITIAL_STATE, action: IProductAction): IProductState => {
+export const fetchProductSuccess = (state = INITIAL_STATE, action: IProductAction): IProductState => {
   const data: IProduct = action.data as IProduct
   return {
     ...state,
@@ -57,7 +60,7 @@ export const fetchAirlineSuccess = (state = INITIAL_STATE, action: IProductActio
   }
 }
 
-export const fetchAirlineFailure = (state = INITIAL_STATE, action: IProductAction): IProductState => {
+export const fetchProductFailure = (state = INITIAL_STATE, action: IProductAction): IProductState => {
   return {
     ...state,
     fetching: false,
@@ -68,7 +71,7 @@ export const fetchAirlineFailure = (state = INITIAL_STATE, action: IProductActio
 
 //======================Put=============
 
-export const putAirline = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const putProduct = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   return {
     ...state,
     posting: true,
@@ -76,7 +79,7 @@ export const putAirline = (state = INITIAL_STATE, actions: IProductAction): IPro
   }
 }
 
-export const putAirlineSuccess = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const putProductSuccess = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   const data = actions.data as IProduct
   return {
     ...state,
@@ -86,7 +89,7 @@ export const putAirlineSuccess = (state = INITIAL_STATE, actions: IProductAction
   }
 }
 
-export const putAirlineFailure = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const putProductFailure = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   return {
     ...state,
     posting: false,
@@ -97,7 +100,7 @@ export const putAirlineFailure = (state = INITIAL_STATE, actions: IProductAction
 
 //======================Create=============
 
-export const postAirline = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const postProduct = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   return {
     ...state,
     posting: true,
@@ -107,7 +110,7 @@ export const postAirline = (state = INITIAL_STATE, actions: IProductAction): IPr
   }
 }
 
-export const postAirlineSuccess = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const postProductSuccess = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   const { data } = actions
   return {
     ...state,
@@ -118,7 +121,7 @@ export const postAirlineSuccess = (state = INITIAL_STATE, actions: IProductActio
   }
 }
 
-export const postAirlineFailure = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const postProductFailure = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   return {
     ...state,
     posting: false,
@@ -129,7 +132,7 @@ export const postAirlineFailure = (state = INITIAL_STATE, actions: IProductActio
 
 //======================Delete=============
 
-export const deleteAirline = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const deleteProduct = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   return {
     ...state,
     posting: true,
@@ -137,7 +140,7 @@ export const deleteAirline = (state = INITIAL_STATE, actions: IProductAction): I
   }
 }
 
-export const deleteAirlineSuccess = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const deleteProductSuccess = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   const data = actions.data as IProduct
 
   return {
@@ -148,7 +151,7 @@ export const deleteAirlineSuccess = (state = INITIAL_STATE, actions: IProductAct
   }
 }
 
-export const deleteAirlineFailure = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
+export const deleteProductFailure = (state = INITIAL_STATE, actions: IProductAction): IProductState => {
   return {
     ...state,
     posting: false,
@@ -159,7 +162,7 @@ export const deleteAirlineFailure = (state = INITIAL_STATE, actions: IProductAct
 
 
 
-export const setSelectedAirline = (state = INITIAL_STATE, action: { data: IProduct }): IProductState => {
+export const setSelectedProduct = (state = INITIAL_STATE, action: { data: IProduct }): IProductState => {
   const data = action.data as IProduct
   return {
     ...state,
@@ -167,7 +170,7 @@ export const setSelectedAirline = (state = INITIAL_STATE, action: { data: IProdu
   }
 }
 
-export const resetAirline = (state = INITIAL_STATE, action: { data: IProduct }): IProductState => {
+export const resetProduct = (state = INITIAL_STATE, action: { data: IProduct }): IProductState => {
   return {
     ...state,
     fetching: false,
@@ -181,29 +184,29 @@ export const resetAirline = (state = INITIAL_STATE, action: { data: IProduct }):
 }
 
 export const HANDLERS = {
-  [Types.FETCH_CUSTOMERS]: fetchAirlines,
-  [Types.FETCH_CUSTOMERS_SUCCESS]: fetchAirlinesSuccess,
-  [Types.FETCH_CUSTOMERS_FAILURE]: fetchAirlinesFailure,
+  [Types.FETCH_PRODUCTS]: fetchProducts,
+  [Types.FETCH_PRODUCTS_SUCCESS]: fetchProductsSuccess,
+  [Types.FETCH_PRODUCTS_FAILURE]: fetchProductsFailure,
 
-  [Types.FETCH_CUSTOMER]: fetchAirline,
-  [Types.FETCH_CUSTOMER_SUCCESS]: fetchAirlineSuccess,
-  [Types.FETCH_CUSTOMER_FAILURE]: fetchAirlineFailure,
+  [Types.FETCH_PRODUCT]: fetchProduct,
+  [Types.FETCH_PRODUCT_SUCCESS]: fetchProductSuccess,
+  [Types.FETCH_PRODUCT_FAILURE]: fetchProductFailure,
 
-  [Types.POST_CUSTOMER]: postAirline,
-  [Types.POST_CUSTOMER_SUCCESS]: postAirlineSuccess,
-  [Types.POST_CUSTOMER_FAILURE]: postAirlineFailure,
+  [Types.POST_PRODUCT]: postProduct,
+  [Types.POST_PRODUCT_SUCCESS]: postProductSuccess,
+  [Types.POST_PRODUCT_FAILURE]: postProductFailure,
 
-  [Types.PUT_CUSTOMER]: putAirline,
-  [Types.PUT_CUSTOMER_SUCCESS]: putAirlineSuccess,
-  [Types.PUT_CUSTOMER_FAILURE]: putAirlineFailure,
+  [Types.PUT_PRODUCT]: putProduct,
+  [Types.PUT_PRODUCT_SUCCESS]: putProductSuccess,
+  [Types.PUT_PRODUCT_FAILURE]: putProductFailure,
 
-  [Types.DELETE_CUSTOMER]: deleteAirline,
-  [Types.DELETE_CUSTOMER_SUCCESS]: deleteAirlineSuccess,
-  [Types.DELETE_CUSTOMER_FAILURE]: deleteAirlineFailure,
+  [Types.DELETE_PRODUCT]: deleteProduct,
+  [Types.DELETE_PRODUCT_SUCCESS]: deleteProductSuccess,
+  [Types.DELETE_PRODUCT_FAILURE]: deleteProductFailure,
 
-  [Types.RESET_CUSTOMER]: resetAirline,
+  [Types.RESET_PRODUCT]: resetProduct,
 
-  [Types.SET_SELECTED_CUSTOMER]: setSelectedAirline,
+  [Types.SET_SELECTED_PRODUCT]: setSelectedProduct,
 
 }
 

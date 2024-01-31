@@ -27,7 +27,7 @@ export function getAccessTokenFromLocalStorage(): string {
 }
 
 export function userHasAnyRole(userRole: string, requiredRoles: string[]) {
-  const result = requiredRoles.filter(role => role == userRole)
+  const result = requiredRoles.filter(role => role === userRole)
   return result
 }
 

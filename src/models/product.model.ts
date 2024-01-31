@@ -26,14 +26,15 @@ export interface IProductQueryParams extends QueryParams {
 }
 
 export enum Measurementunits {
-  KILOGRAM,
-  GRAM
+  KILOGRAM = "KILOGRAM",
+  GRAM = "GRAM"
 }
 
 
 export interface IProductState {
   fetching: boolean
   products: Array<IProduct>
+  has_next: boolean
   product: IProduct | null
   selected_product: IProduct | null
   error: string
@@ -45,7 +46,7 @@ export interface IProductAction {
   type: string
   query?: IProductQueryParams
   payload?: ICreateProductRequest
-  data?: IProduct | Array<IProduct>
+  data?: IProduct | Array<IProduct> | IPaginatedData<IProduct[]>
   filter?: string
   [other: string]: any
   error?: string

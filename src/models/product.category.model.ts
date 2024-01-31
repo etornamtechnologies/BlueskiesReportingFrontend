@@ -20,6 +20,7 @@ export interface IProductCategoryQueryParams extends QueryParams {
 export interface IProductCategoryState {
   fetching: boolean
   product_categories: Array<IProductCategory>
+  has_next: boolean
   product_category: IProductCategory | null
   selected_product_category: IProductCategory | null
   error: string
@@ -31,7 +32,7 @@ export interface IProductCategoryAction {
   type: string
   query?: IProductCategoryQueryParams
   payload?: ICreateProductCategoryRequest
-  data?: IProductCategory | Array<IProductCategory>
+  data?: IProductCategory | Array<IProductCategory> | IPaginatedData<IProductCategory[]>
   filter?: string
   [other: string]: any
   error?: string

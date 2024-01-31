@@ -2,20 +2,18 @@ import { all, call, put, takeLatest, takeLeading } from 'redux-saga/effects'
 import { Types, Creators } from '../../redux/product/actions'
 import ApiService from '../../api/product.api'
 import { getErrorMessageFromApiError } from '../../../utils/common.helper'
+// eslint-disable-next-line
 import { AxiosError } from 'axios'
 import { IProduct, IProductAction, IProductQueryParams } from '../../../models/product.model'
+import { message } from 'antd'
 
 const apiService: ApiService = new ApiService()
 
 export function* fetchProducts(action: IProductAction) {
   const { query } = action
   try {
-    const response: IApiResponseDTO<IProduct[]> = yield call(apiService.fetchProducts, query as IProductQueryParams)
-    if(response.code === 200) {
-      yield put(Creators.fetchProductsSuccess(response.data))
-    } else {
-      yield put(Creators.fetchProductsFailure(response.message))
-    }
+    const response: IPaginatedData<IProduct[]> = yield call(apiService.fetchProducts, query as IProductQueryParams)
+    yield put(Creators.fetchProductsSuccess(response))
   } catch(error: AxiosError | unknown) {
     const errorMessage = getErrorMessageFromApiError(error) || 'Network Error!'
     yield put(Creators.fetchProductsFailure(errorMessage))
@@ -40,12 +38,9 @@ export function* fetchProduct(action: IProductAction) {
 export function* postProduct(action: IProductAction) {
   const { payload } = action
   try {
-    const response: IApiResponseDTO<IProduct> = yield call(apiService.postProduct, payload)
-    if(response.code === 200) {
-      yield put(Creators.postProductSuccess(response.data))
-    } else {
-      yield put(Creators.postProductFailure(response.message))
-    }
+    const response: IProduct = yield call(apiService.postProduct, payload)
+    yield put(Creators.postProductSuccess(response))
+    message.success('Product added successfully!')
   } catch(error: any | unknown) {
     yield put(Creators.postProductFailure(getErrorMessageFromApiError(error)))
   }

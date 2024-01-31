@@ -22,7 +22,7 @@ const { Types, Creators } = createActions(
     deleteAirlineSuccess: ['data'],
     deleteAirlineFailure: ['error'],
 
-    setSelectedAirline: ['airline'],
+    setSelectedAirline: ['data'],
 
     resetAirline: null
   }

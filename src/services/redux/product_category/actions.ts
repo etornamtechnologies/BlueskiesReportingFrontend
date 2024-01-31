@@ -22,7 +22,7 @@ const { Types, Creators } = createActions(
     deleteProductCategorySuccess: ['data'],
     deleteProductCategoryFailure: ['error'],
 
-    setSelectedProductCategory: ['airline'],
+    setSelectedProductCategory: ['data'],
 
     resetProductCategory: null
   }

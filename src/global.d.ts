@@ -8,3 +8,8 @@ interface QueryParams {
   pageNo?: number
   pageSize?: number
 }
+
+interface IPaginatedData<T> {
+  data: T,
+  hasNext: boolean
+}
