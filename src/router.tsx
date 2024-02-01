@@ -4,6 +4,7 @@ import DashboardIndex from "./container/dashboard";
 import ProductIndex from "./container/product";
 import CustomerIndex from "./container/customer";
 import AirlineIndex from "./container/airline";
+import ProductOrderIndex from "./container/product_order";
 
 
 export const router = createBrowserRouter([
@@ -17,6 +18,15 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <ProductCategoryIndex/>
+      },
+    ]
+  },
+  {
+    path: '/product-orders',
+    children: [
+      {
+        path: '',
+        element: <ProductOrderIndex />
       },
     ]
   },

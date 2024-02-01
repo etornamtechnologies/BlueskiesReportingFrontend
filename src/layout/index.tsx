@@ -73,6 +73,11 @@ const AppLayout: React.FC<Props> = ({
               label: 'Product'
             },
             {
+              key: 'product-orders',
+              icon: <ShoppingCartOutlined />,
+              label: 'Orders'
+            },
+            {
               key: 'product-categories',
               icon: <BookOutlined />,
               label: 'Product Category'

@@ -5,6 +5,7 @@ import { getErrorMessageFromApiError } from '../../../utils/common.helper'
 // eslint-disable-next-line
 import { AxiosError } from 'axios'
 import { IProductOrder, IProductOrderAction, IProductOrderQueryParams } from '../../../models/product.order.model'
+import { message } from 'antd'
 
 
 const apiService: ApiService = new ApiService()
@@ -12,13 +13,8 @@ const apiService: ApiService = new ApiService()
 export function* fetchProductOrders(action: IProductOrderAction) {
   const { query } = action
   try {
-    const response: IApiResponseDTO<IProductOrder[]> = yield call(apiService.fetchProductOrders, query as IProductOrderQueryParams)
-    if(response.code === 200) {
-      console.log('bo-users', response.data)
-      yield put(Creators.fetchProductOrdersSuccess(response.data))
-    } else {
-      yield put(Creators.fetchProductOrdersFailure(response.message))
-    }
+    const response: IPaginatedData<IProductOrder[]> = yield call(apiService.fetchProductOrders, query as IProductOrderQueryParams)
+    yield put(Creators.fetchProductOrdersSuccess(response))
   } catch(error: AxiosError | unknown) {
     const errorMessage = getErrorMessageFromApiError(error) || 'Network Error!'
     yield put(Creators.fetchProductOrdersFailure(errorMessage))
@@ -44,12 +40,9 @@ export function* fetchProductOrder(action: IProductOrderAction) {
 export function* postProductOrder(action: IProductOrderAction) {
   const { payload } = action
   try {
-    const response: IApiResponseDTO<IProductOrder> = yield call(apiService.postProductOrder, payload)
-    if(response.code === 200) {
-      yield put(Creators.postProductOrderSuccess(response.data))
-    } else {
-      yield put(Creators.postProductOrderFailure(response.message))
-    }
+    const response: IProductOrder = yield call(apiService.postProductOrder, payload)
+    yield put(Creators.postProductOrderSuccess(response))
+    message.success('Order created!')
   } catch(error: any | unknown) {
     yield put(Creators.postProductOrderFailure(getErrorMessageFromApiError(error)))
   }
@@ -59,12 +52,9 @@ export function* putProductOrder(action: IProductOrderAction) {
   const { id, payload } = action
   console.log('payload saga', payload)
   try {
-    const response: IApiResponseDTO<IProductOrder> = yield call(apiService.putProductOrder, id, payload)
-    if(response.code === 200) {
-      yield put(Creators.putProductOrderSuccess(response.data))
-    } else {
-      yield put(Creators.putProductOrderFailure(response.message))
-    }
+    const response: IProductOrder = yield call(apiService.putProductOrder, id, payload)
+    yield put(Creators.putProductOrderSuccess(response))
+    message.success('Order updated!')
   } catch(error: any | unknown) {
     yield put(Creators.putProductOrderFailure(getErrorMessageFromApiError(error)))
   }

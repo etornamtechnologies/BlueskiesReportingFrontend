@@ -6,6 +6,7 @@ import { IProductOrder, IProductOrderAction, IProductOrderState } from '../../..
 export const INITIAL_STATE: IProductOrderState = {
   fetching: false,
   product_orders: [],
+  has_next: false,
   product_order: null,
   selected_product_order: null,
   error: '',
@@ -22,12 +23,13 @@ export const fetchProductOrders = (state = INITIAL_STATE, action: IProductOrderA
   }
 }
 
-export const fetchProductOrdersSuccess = (state = INITIAL_STATE, action: { data: IProductOrder[], message: string }): IProductOrderState => {
-  const { data } = action
+export const fetchProductOrdersSuccess = (state = INITIAL_STATE, action: IProductOrderAction): IProductOrderState => {
+  const { hasNext, data } = action.data as IPaginatedData<IProductOrder[]>
   return {
     ...state,
     fetching: false,
-    product_orders: data
+    product_orders: data,
+    has_next: hasNext
   }
 }
 
