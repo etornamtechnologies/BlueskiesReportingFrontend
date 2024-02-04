@@ -128,7 +128,7 @@ const ProductOrderIndex: React.FC = () => {
 
       <Modal
         open={createVisible}
-        title='ADD NEW PRODUCT CATEGORY'
+        title='ADD NEW ORDER'
         footer={false}
         onCancel={() => {
           setCreateVisible(false)
@@ -157,7 +157,7 @@ const ProductOrderIndex: React.FC = () => {
 
       <Modal
         open={editVisible}
-        title='EDIT PRODUCT CATEGORY'
+        title='EDIT ORDER'
         footer={false}
         onCancel={() => {
           setEditVisible(false)

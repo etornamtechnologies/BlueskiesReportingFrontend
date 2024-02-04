@@ -12,6 +12,18 @@ const DashboardIndex: React.FC = () => {
           </Breadcrumb>
         </Col>
       </Row>
+      <Row>
+        <Col span={24}>
+        <iframe
+          title="Dashboard"
+          src="http://localhost:8088/login?token=1234abcd456&next=/superset/dashboard/9?standalone=3"
+          width="100%"
+          height="800px"
+          sandbox="allow-same-origin allow-scripts"
+          frameBorder="0"
+        ></iframe>
+        </Col>
+      </Row>
     </AppLayout>
   )
 }

@@ -10,7 +10,8 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
 const { Sider, Header, Content, Footer } = Layout;
 
 type Props = {
@@ -23,7 +24,9 @@ const AppLayout: React.FC<Props> = ({
   header
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false)
-  //const [current, setCurrent] = useState<string>('')
+  const [current, setCurrent] = useState<string>('/')
+
+  const location = useLocation()
 
   const navigate = useNavigate()
 
@@ -34,8 +37,32 @@ const AppLayout: React.FC<Props> = ({
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
     //setCurrent(e.key);
-    navigate(`/${e.keyPath.join('/')}`)
+    if(e.keyPath[0] === '/') {
+      navigate('/')
+    } else {
+      navigate(`/${e.keyPath.join('/')}`)
+    }
   };
+
+  React.useEffect(()=> {
+    const { pathname } = location
+    console.log('--------------> pathname', pathname)
+    if(pathname === '/') {
+      setCurrent("/")
+    } else if(pathname === '/airlines') {
+      setCurrent("airlines")
+    } else if(pathname === '/customers') {
+      setCurrent('customers')
+    } else if(pathname === '/product-categories') {
+      setCurrent("product-categories")
+    } else if(pathname === '/products') {
+      setCurrent("products")
+    } else if(pathname === '/product-orders') {
+      setCurrent('product-orders')
+    } else {
+      setCurrent("/")
+    }
+  }, [current])
 
   return (
     <Layout>
@@ -49,11 +76,12 @@ const AppLayout: React.FC<Props> = ({
           style={{ height: '100vh' }}
           theme='dark'
           mode='inline'
-          defaultSelectedKeys={['home']}
+          defaultSelectedKeys={['/']}
           onClick={onClick}
+          selectedKeys={[current]}
           items={[
             {
-              key: 'home',
+              key: '/',
               icon: <DashboardOutlined />,
               label: 'Home'
             },

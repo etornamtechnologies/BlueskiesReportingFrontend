@@ -67,6 +67,8 @@ const CustomerIndex: React.FC = () => {
       setDeleteVisible(false)
       dispatch(Creators.fetchCustomers({}))
       dispatch(Creators.setSelectedCustomer(null))
+      createForm.resetFields()
+      editForm.resetFields()
     }
   }, [dispatch, post_success, posting])
 
@@ -87,6 +89,7 @@ const CustomerIndex: React.FC = () => {
         tooltip='Add new' 
         icon={<PlusOutlined/>} 
         onClick={() => {
+          createForm.resetFields()
           setCreateVisible(true)
         }}
       />

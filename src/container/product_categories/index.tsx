@@ -50,6 +50,8 @@ const ProductIndex: React.FC = () => {
 
   useEffect(() => {
     if(post_success && !posting) {
+      createForm.resetFields()
+      editForm.resetFields()
       setCreateVisible(false)
       setEditVisible(false)
       setDeleteVisible(false)
@@ -75,6 +77,7 @@ const ProductIndex: React.FC = () => {
         tooltip='Add new' 
         icon={<PlusOutlined/>} 
         onClick={() => {
+          createForm.resetFields()
           setCreateVisible(true)
         }}
       />

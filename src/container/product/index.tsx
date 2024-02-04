@@ -129,7 +129,7 @@ const ProductIndex: React.FC = () => {
 
       <Modal
         open={createVisible}
-        title='ADD NEW PRODUCT CATEGORY'
+        title='ADD NEW PRODUCT'
         footer={false}
         onCancel={() => {
           setCreateVisible(false)
@@ -174,6 +174,8 @@ const ProductIndex: React.FC = () => {
            }}
           onSubmit={handleEditSubmit}
           submitting={posting} 
+          productCategories={product_categories}
+          loadingProductCategories={fetching_product_categories}
         />
       </Modal>
       
