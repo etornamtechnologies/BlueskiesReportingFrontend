@@ -57,7 +57,7 @@ const AppLayout: React.FC<Props> = ({
       setCurrent("product-categories")
     } else if(pathname === '/products') {
       setCurrent("products")
-    } else if(pathname === '/product-orders') {
+    } else if(pathname === '/product-orders' || pathname.includes('/product-orders/add-new') || pathname.includes('/product-orders/view-detail')) {
       setCurrent('product-orders')
     } else {
       setCurrent("/")
