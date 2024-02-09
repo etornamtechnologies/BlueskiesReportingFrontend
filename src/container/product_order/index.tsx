@@ -1,9 +1,9 @@
-import { Breadcrumb, Col, Drawer, FloatButton, Form, Modal, Row } from "antd"
+import { Breadcrumb, Col, FloatButton, Row } from "antd"
 import BreadcrumbItem from "antd/es/breadcrumb/BreadcrumbItem"
 import React, { useEffect, useState } from "react"
 import ProductOrderList from "./components/ProductOrderList"
 import { useAppDispatch, useAppSelector } from '../../redux_store/hook'
-import { ICreateProductOrderRequest, INewOrder, IProductOrder } from "../../models/product.order.model"
+import { IProductOrder } from "../../models/product.order.model"
 import { Creators } from '../../services/redux/product_order/actions'
 import { Creators as ProductCreators } from '../../services/redux/product/actions'
 import { Creators as CustomerCreators } from '../../services/redux/customer/actions'
@@ -11,7 +11,6 @@ import { Creators as AirlineCreators } from '../../services/redux/airline/action
 import AppLayout from "../../layout"
 import { PlusOutlined } from "@ant-design/icons"
 import ConfirmModal from "../../components/ConfirmModal"
-import AddMultipleProductOrderForm from "./components/AddMultipleProductOrderForm"
 import { useNavigate } from "react-router-dom"
 
 const ProductOrderIndex: React.FC = () => {
@@ -24,25 +23,8 @@ const ProductOrderIndex: React.FC = () => {
   } = useAppSelector(state => state.product_order)
   const navigate = useNavigate()
 
-  const { customers, fetching: fetchingCustomers } = useAppSelector(state => state.customer)
-  const { products, fetching: fetchingProducts } = useAppSelector(state => state.product)
-  const { airlines, fetching: fetchingAirlines } = useAppSelector(state => state.airline)
 
-
-  const [createVisible, setCreateVisible] = useState<boolean>(false)
-  const [editVisible, setEditVisible] = useState<boolean>(false)
   const [deleteVisible, setDeleteVisible] = useState<boolean>(false)
-  const [orderProductQuantities, setOrderProductQuantities] = useState<Array<{productId: string, quantity: number}>>([])
-  const [order, setOrder] = useState<INewOrder | null>({ 
-                    customerId: undefined, 
-                    airlineId: undefined,
-                    flight: '',
-                    description: '',
-                    productQuantity: [] 
-                  })
-
-  const [editForm] = Form.useForm()
-  const [createForm] = Form.useForm()
 
   const dispatch = useAppDispatch()
 
@@ -85,12 +67,13 @@ const ProductOrderIndex: React.FC = () => {
 
   useEffect(() => {
     if(post_success && !posting) {
-      setCreateVisible(false)
-      setEditVisible(false)
+      // setCreateVisible(false)
+      // setEditVisible(false)
       setDeleteVisible(false)
       dispatch(Creators.fetchProductOrders({}))
       dispatch(Creators.setSelectedProductOrder(null))
     }
+     // eslint-disable-next-line
   }, [dispatch, post_success, posting])
 
   return (

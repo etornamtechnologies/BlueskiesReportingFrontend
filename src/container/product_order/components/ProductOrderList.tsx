@@ -1,7 +1,7 @@
 import { ColumnsType } from "antd/es/table"
 import { Col, Row, Space, Tooltip, Table } from "antd"
 import { IProductOrder } from "../../../models/product.order.model"
-import { DeleteOutlined, EditOutlined, InfoCircleTwoTone, InfoOutlined } from "@ant-design/icons"
+import { InfoCircleTwoTone } from "@ant-design/icons"
 
 type Props = {
   product_orders: Array<IProductOrder>
