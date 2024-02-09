@@ -70,6 +70,7 @@ const CustomerIndex: React.FC = () => {
       createForm.resetFields()
       editForm.resetFields()
     }
+    //eslint-disable-next-line
   }, [dispatch, post_success, posting])
 
   return (

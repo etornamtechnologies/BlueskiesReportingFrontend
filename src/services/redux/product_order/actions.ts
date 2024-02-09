@@ -22,7 +22,17 @@ const { Types, Creators } = createActions(
     deleteProductOrderSuccess: ['data'],
     deleteProductOrderFailure: ['error'],
 
-    setSelectedProductOrder: ['airline'],
+    setSelectedProductOrder: ['data'],
+
+    addFulfillment: ['payload'],
+    addFulfillmentSuccess: ['data'],
+    addFulfillmentFailure: ['error'],
+
+    addNewOrder: ['data'],
+    updateNewOrder: ['data'],
+    resetNewOrder: null,
+    addItemToNewOrder: ['data'],
+    removeItemFromNewOrder: ['data'],
 
     resetProductOrder: null
   }

@@ -4,7 +4,7 @@ import ApiService from '../../api/product.order.api'
 import { getErrorMessageFromApiError } from '../../../utils/common.helper'
 // eslint-disable-next-line
 import { AxiosError } from 'axios'
-import { IProductOrder, IProductOrderAction, IProductOrderQueryParams } from '../../../models/product.order.model'
+import { IAddFulfillmentRequest, IProductOrder, IProductOrderAction, IProductOrderQueryParams } from '../../../models/product.order.model'
 import { message } from 'antd'
 
 
@@ -24,13 +24,8 @@ export function* fetchProductOrders(action: IProductOrderAction) {
 export function* fetchProductOrder(action: IProductOrderAction) {
   const { id } = action
   try {
-    const response: IApiResponseDTO<IProductOrder> = yield call(apiService.fetchProductOrderById, id)
-    if(response.code === 200) {
-      console.log('bo-users', response.data)
-      yield put(Creators.fetchProductOrderSuccess(response.data))
-    } else {
-      yield put(Creators.fetchProductOrderFailure(response.message))
-    }
+    const response: IProductOrder = yield call(apiService.fetchProductOrderById, id)
+    yield put(Creators.fetchProductOrderSuccess(response))
   } catch(error: AxiosError | unknown) {
     const errorMessage = getErrorMessageFromApiError(error) || 'Network Error!'
     yield put(Creators.fetchProductOrderFailure(errorMessage))
@@ -48,9 +43,19 @@ export function* postProductOrder(action: IProductOrderAction) {
   }
 }
 
+export function* addFulfillment(action: IProductOrderAction) {
+  const { payload } = action
+  try {
+    const response: IProductOrder = yield call(apiService.postFulfillment, payload as IAddFulfillmentRequest)
+    yield put(Creators.addFulfillmentSuccess(response))
+    message.success('Fulfillment created!')
+  } catch(error: any | unknown) {
+    yield put(Creators.addFulfillmentFailure(getErrorMessageFromApiError(error)))
+  }
+}
+
 export function* putProductOrder(action: IProductOrderAction) {
   const { id, payload } = action
-  console.log('payload saga', payload)
   try {
     const response: IProductOrder = yield call(apiService.putProductOrder, id, payload)
     yield put(Creators.putProductOrderSuccess(response))
@@ -62,6 +67,7 @@ export function* putProductOrder(action: IProductOrderAction) {
 
 export function* deleteProductOrder(action: IProductOrderAction) {
   const { id } = action
+  console.log('delete order id', id)
   try {
     const response: IApiResponseDTO<IProductOrder> = yield call(apiService.deleteProductOrder, id)
     if(response.code === 200) {
@@ -81,6 +87,7 @@ function* userSaga() {
     takeLeading(Types.POST_PRODUCT_ORDER, postProductOrder),
     takeLeading(Types.PUT_PRODUCT_ORDER, putProductOrder),
     takeLeading(Types.DELETE_PRODUCT_ORDER, deleteProductOrder),
+    takeLeading(Types.ADD_FULFILLMENT, addFulfillment)
   ])
 }
 

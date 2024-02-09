@@ -40,3 +40,12 @@ export function getAvatarFromFullname(fullname: string) {
   return `${arr[0]?.substring(0,1)}${arr[1]?.substring(0,1)}`
 }
 
+export function serializeQueryParamsOnNull( obj: any ) {
+  return '?' + Object.keys(obj).reduce(function(a: any, k: any){
+    if(obj[k] !== null && obj[k] !== undefined && obj[k] !== "") {
+      a.push(k + '=' + encodeURIComponent(obj[k]));
+    }
+    return a;
+  }, []).join('&');
+}
+

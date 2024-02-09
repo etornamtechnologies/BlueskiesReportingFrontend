@@ -1,6 +1,5 @@
 import { Button, Form, FormInstance, Input, Select } from "antd"
-import { IProduct, Measurementunits } from "../../../models/product.model"
-import { IProductOrder } from "../../../models/product.order.model"
+import { IProduct } from "../../../models/product.model"
 import { ICustomer } from "../../../models/customer.model"
 import { IAirline } from "../../../models/airline.model"
 

@@ -1,6 +1,6 @@
 import { ColumnsType } from "antd/es/table"
 import { IProductCategory } from "../../../models/product.category.model"
-import { Button, Col, Row, Space, Tooltip, Table } from "antd"
+import { Col, Row, Space, Tooltip, Table } from "antd"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 
 type Props = {
@@ -8,11 +8,6 @@ type Props = {
   loading: boolean
   onEdit: (row: IProductCategory) => void
   onDelete: (row: IProductCategory) => void
-}
-
-type ProductCategoryTableProps = {
-  onEdit: (row: IProductCategory) => void,
-  onDelete: (row: IProductCategory) => void,
 }
 
 

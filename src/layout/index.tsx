@@ -62,6 +62,7 @@ const AppLayout: React.FC<Props> = ({
     } else {
       setCurrent("/")
     }
+    //eslint-disable-next-line
   }, [current])
 
   return (

@@ -1,9 +1,9 @@
-import { Breadcrumb, Button, Col, FloatButton, Form, Modal, Row, message } from "antd"
+import { Breadcrumb, Col, FloatButton, Form, Modal, Row } from "antd"
 import BreadcrumbItem from "antd/es/breadcrumb/BreadcrumbItem"
 import React, { useEffect, useState } from "react"
 import ProductCategoryList from "./components/ProductCategoryList"
 import { useAppDispatch, useAppSelector } from '../../redux_store/hook'
-import { ICreateProductCategoryRequest, IProductCategory, IProductCategoryState } from "../../models/product.category.model"
+import { ICreateProductCategoryRequest, IProductCategory } from "../../models/product.category.model"
 import { Creators } from '../../services/redux/product_category/actions'
 import AppLayout from "../../layout"
 import AddProductCategoryForm from "./components/AddProductCategoryForm"
@@ -58,6 +58,7 @@ const ProductIndex: React.FC = () => {
       dispatch(Creators.fetchProductCategories({}))
       dispatch(Creators.setSelectedProductCategory(null))
     }
+    //eslint-disable-next-line
   }, [dispatch, post_success, posting])
 
   return (

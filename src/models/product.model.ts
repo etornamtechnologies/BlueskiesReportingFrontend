@@ -22,7 +22,7 @@ export interface ICreateProductRequest {
 }
 
 export interface IProductQueryParams extends QueryParams {
-  filter?: string
+  productName?: string
 }
 
 export enum Measurementunits {

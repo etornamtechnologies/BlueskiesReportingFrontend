@@ -1,13 +1,15 @@
 
 import { IProduct, IProductQueryParams } from '../../models/product.model'
+import { serializeQueryParamsOnNull } from '../../utils/common.helper'
 import apiService from './api.service'
 
 class ProductApiService {
 
   public async fetchProducts(query: IProductQueryParams): Promise<IProduct[]> {
+    const queryStr = serializeQueryParamsOnNull(query)
     return apiService.axiosCall<IProduct[]>({
       method: 'GET',
-      url: '/products'
+      url: `/products${queryStr}`
     })
   }
 

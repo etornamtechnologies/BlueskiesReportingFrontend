@@ -5,6 +5,8 @@ import ProductIndex from "./container/product";
 import CustomerIndex from "./container/customer";
 import AirlineIndex from "./container/airline";
 import ProductOrderIndex from "./container/product_order";
+import AddNewOrderPage from "./container/product_order/page/AddNewOrderPage";
+import ProductOrderDetailPage from "./container/product_order/page/ProductOrderDetailsPage";
 
 
 export const router = createBrowserRouter([
@@ -28,6 +30,14 @@ export const router = createBrowserRouter([
         path: '',
         element: <ProductOrderIndex />
       },
+      {
+        path: 'add-new',
+        element: <AddNewOrderPage />
+      },
+      {
+        path: 'view-detail/:orderId',
+        element: <ProductOrderDetailPage />
+      }
     ]
   },
   {

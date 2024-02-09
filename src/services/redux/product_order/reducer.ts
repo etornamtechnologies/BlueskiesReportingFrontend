@@ -1,6 +1,6 @@
 import { createReducer } from 'reduxsauce'
 import Types from './actionTypes'
-import { IProductOrder, IProductOrderAction, IProductOrderState } from '../../../models/product.order.model'
+import { INewOrder, IProductOrder, IProductOrderAction, IProductOrderState } from '../../../models/product.order.model'
 
 
 export const INITIAL_STATE: IProductOrderState = {
@@ -11,7 +11,10 @@ export const INITIAL_STATE: IProductOrderState = {
   selected_product_order: null,
   error: '',
   posting: false,
-  post_success: false
+  post_success: false,
+  new_order: null,
+  posting_fulfillment: false,
+  post_fulfillment_success: false,
 }
 
 
@@ -169,6 +172,29 @@ export const setSelectedProductOrder = (state = INITIAL_STATE, action: { data: I
   }
 }
 
+//Fulfillment
+export const addFulfillment = (state = INITIAL_STATE, action: IProductOrderAction): IProductOrderState => {
+  return {
+    ...state,
+    posting_fulfillment: true,
+    post_fulfillment_success: false
+  }
+}
+export const addFulfillmentSuccess = (state = INITIAL_STATE, action: IProductOrderAction): IProductOrderState => {
+  return {
+    ...state,
+    posting_fulfillment: false,
+    post_fulfillment_success: true
+  }
+}
+export const addFulfillmentFailure = (state = INITIAL_STATE, action: IProductOrderAction): IProductOrderState => {
+  return {
+    ...state,
+    posting_fulfillment: false,
+    post_fulfillment_success: false
+  }
+}
+
 export const resetProductOrder = (state = INITIAL_STATE, action: { data: IProductOrder }): IProductOrderState => {
   return {
     ...state,
@@ -181,6 +207,15 @@ export const resetProductOrder = (state = INITIAL_STATE, action: { data: IProduc
     post_success: false
   }
 }
+
+export const addNewOrder = (state = INITIAL_STATE, action: IProductOrderAction) => {
+  const data: INewOrder = action.data as INewOrder
+  return {
+    ...state,
+    new_order: data
+  }
+}
+
 
 export const HANDLERS = {
   [Types.FETCH_PRODUCT_ORDERS]: fetchProductOrders,
@@ -202,6 +237,10 @@ export const HANDLERS = {
   [Types.DELETE_PRODUCT_ORDER]: deleteProductOrder,
   [Types.DELETE_PRODUCT_ORDER_SUCCESS]: deleteProductOrderSuccess,
   [Types.DELETE_PRODUCT_ORDER_FAILURE]: deleteProductOrderFailure,
+
+  [Types.ADD_FULFILLMENT]: addFulfillment,
+  [Types.ADD_FULFILLMENT_SUCCESS]: addFulfillmentSuccess,
+  [Types.ADD_FULFILLMENT_FAILURE]: addFulfillmentFailure,
 
   [Types.RESET_PRODUCT_ORDER]: resetProductOrder,
 

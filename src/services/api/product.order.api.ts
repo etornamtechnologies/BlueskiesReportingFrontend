@@ -1,5 +1,5 @@
 
-import { IProductOrder, IProductOrderQueryParams } from '../../models/product.order.model'
+import { IAddFulfillmentRequest, IProductOrder, IProductOrderQueryParams } from '../../models/product.order.model'
 import apiService from './api.service'
 
 class ProductOrderApiService {
@@ -11,8 +11,8 @@ class ProductOrderApiService {
     })
   }
 
-  public async fetchProductOrderById(id: number): Promise<IProductOrder[]> {
-    return apiService.axiosCall<IProductOrder[]>({
+  public async fetchProductOrderById(id: number): Promise<IProductOrder> {
+    return apiService.axiosCall<IProductOrder>({
       method: 'GET',
       url: `/productOrders/${id}`
     })
@@ -38,6 +38,14 @@ class ProductOrderApiService {
     return apiService.axiosCall<IProductOrder>({
       method: 'DELETE',
       url: `/productOrders/${id}`
+    })
+  }
+
+  public async postFulfillment(payload: IAddFulfillmentRequest): Promise<IProductOrder> {
+    return apiService.axiosCall<IProductOrder>({
+      method: 'POST',
+      url: `/productOrders/${payload.productOrderId}/fulfillment`,
+      data: payload
     })
   }
 

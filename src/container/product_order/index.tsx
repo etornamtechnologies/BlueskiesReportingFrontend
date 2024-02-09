@@ -1,17 +1,18 @@
-import { Breadcrumb, Col, FloatButton, Form, Modal, Row } from "antd"
+import { Breadcrumb, Col, Drawer, FloatButton, Form, Modal, Row } from "antd"
 import BreadcrumbItem from "antd/es/breadcrumb/BreadcrumbItem"
 import React, { useEffect, useState } from "react"
 import ProductOrderList from "./components/ProductOrderList"
 import { useAppDispatch, useAppSelector } from '../../redux_store/hook'
-import { ICreateProductOrderRequest, IProductOrder } from "../../models/product.order.model"
+import { ICreateProductOrderRequest, INewOrder, IProductOrder } from "../../models/product.order.model"
 import { Creators } from '../../services/redux/product_order/actions'
 import { Creators as ProductCreators } from '../../services/redux/product/actions'
 import { Creators as CustomerCreators } from '../../services/redux/customer/actions'
 import { Creators as AirlineCreators } from '../../services/redux/airline/actions'
 import AppLayout from "../../layout"
-import AddProductOrderForm from "./components/AddProductOrderForm"
 import { PlusOutlined } from "@ant-design/icons"
 import ConfirmModal from "../../components/ConfirmModal"
+import AddMultipleProductOrderForm from "./components/AddMultipleProductOrderForm"
+import { useNavigate } from "react-router-dom"
 
 const ProductOrderIndex: React.FC = () => {
   const {
@@ -21,42 +22,53 @@ const ProductOrderIndex: React.FC = () => {
     posting,
     fetching
   } = useAppSelector(state => state.product_order)
+  const navigate = useNavigate()
+
   const { customers, fetching: fetchingCustomers } = useAppSelector(state => state.customer)
   const { products, fetching: fetchingProducts } = useAppSelector(state => state.product)
   const { airlines, fetching: fetchingAirlines } = useAppSelector(state => state.airline)
 
+
   const [createVisible, setCreateVisible] = useState<boolean>(false)
   const [editVisible, setEditVisible] = useState<boolean>(false)
   const [deleteVisible, setDeleteVisible] = useState<boolean>(false)
+  const [orderProductQuantities, setOrderProductQuantities] = useState<Array<{productId: string, quantity: number}>>([])
+  const [order, setOrder] = useState<INewOrder | null>({ 
+                    customerId: undefined, 
+                    airlineId: undefined,
+                    flight: '',
+                    description: '',
+                    productQuantity: [] 
+                  })
 
   const [editForm] = Form.useForm()
   const [createForm] = Form.useForm()
 
   const dispatch = useAppDispatch()
 
-  const handleCreateSubmit = (values: any) => {
-    const payload: ICreateProductOrderRequest = {
-      productId: values.productId,
-      customerId: values.customerId,
-      airlineId: values.airlineId,
-      quantity: values.quantity,
-      description: values.description,
-      flight: values.flight
-    }
-    dispatch(Creators.postProductOrder(payload))
-  }
+  // const handleCreateSubmit = (values: any) => {
+  //   const payload: ICreateProductOrderRequest = {
+  //     productId: values.productId,
+  //     customerId: values.customerId,
+  //     airlineId: values.airlineId,
+  //     quantity: values.quantity,
+  //     description: values.description,
+  //     flight: values.flight
+  //   }
+  //   dispatch(Creators.postProductOrder(payload))
+  // }
 
-  const handleEditSubmit = (values: any) => {
-    const payload: ICreateProductOrderRequest = {
-      productId: values.productId,
-      customerId: values.customerId,
-      airlineId: values.airlineId,
-      quantity: values.quantity,
-      description: values.description,
-      flight: values.flight
-    }
-    dispatch(Creators.putProductOrder(selected_product_order?.id, payload))
-  }
+  // const handleEditSubmit = (values: any) => {
+  //   const payload: ICreateProductOrderRequest = {
+  //     productId: values.productId,
+  //     customerId: values.customerId,
+  //     airlineId: values.airlineId,
+  //     quantity: values.quantity,
+  //     description: values.description,
+  //     flight: values.flight
+  //   }
+  //   dispatch(Creators.putProductOrder(selected_product_order?.id, payload))
+  // }
 
   const handleDelete = (row: IProductOrder) => {
     dispatch(Creators.deleteProductOrder(row.id))
@@ -98,7 +110,8 @@ const ProductOrderIndex: React.FC = () => {
         tooltip='Add new' 
         icon={<PlusOutlined/>} 
         onClick={() => {
-          setCreateVisible(true)
+          //setCreateVisible(true)
+          navigate('/product-orders/add-new')
         }}
       />
       <Row>
@@ -106,19 +119,23 @@ const ProductOrderIndex: React.FC = () => {
           <ProductOrderList
             product_orders={product_orders}
             loading={fetching}
-            onEdit={(row: IProductOrder) => {
-              dispatch(Creators.setSelectedProductOrder(row))
-              editForm.setFieldsValue({
-                productId: row.product.id as string,
-                customerId: row.customer.id,
-                airlineId: row.airline.id,
-                quantity: row.quantity,
-                description: row.description,
-                flight: row.flight
-              })
-              setEditVisible(true)
+            // onEdit={(row: IProductOrder) => {
+            //   dispatch(Creators.setSelectedProductOrder(row))
+            //   editForm.setFieldsValue({
+            //     productId: row.product.id as string,
+            //     customerId: row.customer.id,
+            //     airlineId: row.airline.id,
+            //     quantity: row.quantity,
+            //     description: row.description,
+            //     flight: row.flight
+            //   })
+            //   setEditVisible(true)
+            // }}
+            onView={(row: IProductOrder) => {
+              navigate(`/product-orders/view-detail/${row.id}`)
             }}
             onDelete={(row: IProductOrder) => {
+              console.log('row', row)
               dispatch(Creators.setSelectedProductOrder(row))
               setDeleteVisible(true)
             }}
@@ -126,64 +143,6 @@ const ProductOrderIndex: React.FC = () => {
         </Col>
       </Row>
 
-      <Modal
-        open={createVisible}
-        title='ADD NEW ORDER'
-        footer={false}
-        onCancel={() => {
-          setCreateVisible(false)
-        }}
-      >
-        <AddProductOrderForm 
-          form={createForm}
-          initialValues={{
-            productId: '',
-            customerId: '',
-            airlineId: '',
-            quantity: 0,
-            description: '',
-            flight: ''
-          }}
-          onSubmit={handleCreateSubmit}
-          submitting={posting} 
-          customers={customers} 
-          fetchingCustomers={fetchingCustomers} 
-          products={products} 
-          fetchingProducts={fetchingProducts} 
-          airlines={airlines} 
-          fetchingAirlines={fetchingAirlines}
-        />
-      </Modal>
-
-      <Modal
-        open={editVisible}
-        title='EDIT ORDER'
-        footer={false}
-        onCancel={() => {
-          setEditVisible(false)
-          dispatch(Creators.setSelectedProductOrder(null))
-        }}
-      >
-        <AddProductOrderForm 
-          form={editForm}
-          initialValues={{ 
-            productId: selected_product_order?.product.id as string,
-            customerId: selected_product_order?.customer.id as string,
-            airlineId: selected_product_order?.airline.id as string,
-            quantity: selected_product_order?.quantity as number,
-            description: selected_product_order?.description as string,
-            flight: selected_product_order?.flight as string
-           }}
-          onSubmit={handleEditSubmit}
-          submitting={posting} 
-          customers={customers} 
-          fetchingCustomers={fetchingCustomers} 
-          products={products} 
-          fetchingProducts={fetchingProducts} 
-          airlines={airlines} 
-          fetchingAirlines={fetchingAirlines}
-        />
-      </Modal>
       
       <ConfirmModal 
         open={deleteVisible}
@@ -194,6 +153,7 @@ const ProductOrderIndex: React.FC = () => {
           dispatch(Creators.setSelectedProductOrder(null))
         }}
         onOk={() => {
+          console.log('selected product order', selected_product_order)
           handleDelete(selected_product_order as IProductOrder)
         }}
         loading={posting}
