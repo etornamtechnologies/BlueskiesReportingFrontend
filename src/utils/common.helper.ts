@@ -1,5 +1,6 @@
 import moment from "moment"
 import { LOCAL_STORAGE_KEYS } from "./constants"
+import * as dateFormatter from 'dateformat'
 
 
 
@@ -47,5 +48,13 @@ export function serializeQueryParamsOnNull( obj: any ) {
     }
     return a;
   }, []).join('&');
+}
+
+export function prettifyDateTime(date: string) {
+  if(!date) return 'N/A'
+  // return dateFormatter.default(date, 'mm-dd-yyyy')
+  // //"fullDate"
+  return dateFormatter.default(date, 'fullDate')
+  //"fullDate"
 }
 

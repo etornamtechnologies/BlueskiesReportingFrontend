@@ -11,8 +11,9 @@ export interface IProductOrder extends IAudit {
   description: string
   flight: string,
   requiredDate: string
-  orderDetails: Array<OrderDetail>
+  orderDetails: Array<IOrderDetail>
   status?: string
+  orderFulfillments?: Array<IOrderFulfillment>
 }
 
 export interface IOrderFulfillment extends IAudit {
@@ -22,11 +23,12 @@ export interface IOrderFulfillment extends IAudit {
   product: IProduct
 }
 
-export interface OrderDetail {
+export interface IOrderDetail {
   id?: string
   product: IProduct
   quantity: number
   createdAt?: string
+  orderFulfillments?: Array<IOrderFulfillment>
 }
 
 export interface ICreateProductOrderRequest {

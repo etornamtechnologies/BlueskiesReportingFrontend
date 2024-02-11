@@ -31,7 +31,13 @@ export const fetchProductOrdersSuccess = (state = INITIAL_STATE, action: IProduc
   return {
     ...state,
     fetching: false,
-    product_orders: data,
+    product_orders: data.map(item => {
+      return {
+        ...item, orderDetails: item.orderDetails.map(od => {
+          return {...od, orderFulfillments: item.orderFulfillments?.filter(of => of.product.id === od.product.id)}
+        })
+      }
+    }),
     has_next: hasNext
   }
 }
@@ -57,7 +63,9 @@ export const fetchProductOrderSuccess = (state = INITIAL_STATE, action: IProduct
   return {
     ...state,
     fetching: false,
-    product_order: data,
+    product_order: {...data, orderDetails: data.orderDetails.map(od => {
+      return {...od, orderFulfillments: data.orderFulfillments?.filter(of => of.product.id === od.product.id)}
+    })},
     error: ''
   }
 }

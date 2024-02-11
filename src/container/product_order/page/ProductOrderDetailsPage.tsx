@@ -1,11 +1,13 @@
-import { Breadcrumb, Button, Col, Divider, Table, List, Row, Space, Spin, Modal, Form, Input } from "antd"
+import { Breadcrumb, Button, Col, Divider, Table, List, Row, Space, Spin, Modal, Form, Input, TableColumnsType } from "antd"
 import AppLayout from "../../../layout"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Creators as ProductOrderCreators } from '../../../services/redux/product_order/actions'
 import { useAppDispatch, useAppSelector } from '../../../redux_store/hook'
-import { IAddFulfillmentRequest, IProductOrderState, OrderDetail } from "../../../models/product.order.model"
+import { IAddFulfillmentRequest, IOrderFulfillment, IProductOrderState, IOrderDetail } from "../../../models/product.order.model"
 import { ColumnsType } from "antd/es/table"
+import { prettifyDateTime } from "../../../utils/common.helper"
+
 
 const ProductOrderDetailPage: React.FC = () => {
   const navigate = useNavigate()
@@ -18,12 +20,19 @@ const ProductOrderDetailPage: React.FC = () => {
     fetching
   } = productOrderState
 
-  const [selectedorderDetail, setSelectedOrderDetail] = useState<OrderDetail | null>(null)
+  const [selectedorderDetail, setSelectedOrderDetail] = useState<IOrderDetail | null>(null)
   const [fulfillmentVisible, setFulfillmentVisible] = useState<boolean>(false)
   const [fulfillmentForm] = Form.useForm()
 
+  const productFulfilled = (productId: string) => {
+    const orderDetail = product_order?.orderDetails.find(it => it.product.id === productId)
+    const total: number = product_order?.orderFulfillments?.filter(it => it.product.id === productId)
+      .reduce((accumulator: number, it: IOrderFulfillment) => accumulator + it.quantity, 0) || 0
+    return total >= (orderDetail?.quantity || 0)
+  }
 
-  const colums: ColumnsType<OrderDetail> = [
+
+  const colums: ColumnsType<IOrderDetail> = [
     {
       title: 'Product',
       dataIndex: 'product',
@@ -31,9 +40,20 @@ const ProductOrderDetailPage: React.FC = () => {
       render: (text, row) => row.product?.name
     },
     {
-      title: 'Quantity',
+      title: 'Quantity Ordered',
       dataIndex: 'quantity',
       key: 'quantity',
+      render: (text, row) => row?.quantity
+    },
+    {
+      title: 'Quantity Fulfilled',
+      dataIndex: 'totalQuantity',
+      key: 'totalQuantity',
+      render: (text, row) => product_order?.orderFulfillments
+        ?.filter((it: IOrderFulfillment) => it.product.id === row.product.id)
+        ?.reduce((accumulator: number, item: IOrderFulfillment) => {
+          return accumulator + item?.quantity
+        }, 0)
     },
     {
       title: 'Actions',
@@ -42,11 +62,14 @@ const ProductOrderDetailPage: React.FC = () => {
       align: 'right',
       render: (text, row) => (<Space>
         <Button
+          type="default"
           onClick={() => {
             fulfillmentForm.resetFields()
             setSelectedOrderDetail(row)
             setFulfillmentVisible(true)
           }}
+          size="small"
+          disabled={productFulfilled(row.product.id)}
         >
           Add Fulfillment
         </Button>
@@ -54,11 +77,19 @@ const ProductOrderDetailPage: React.FC = () => {
     }
   ]
 
+  const expandedRowRender = (row: IOrderDetail) => {
+    const expandedColumns: TableColumnsType<IOrderFulfillment> = [
+      { title: 'Created On', dataIndex: 'createdAt', key: 'createdAd', render: text => prettifyDateTime(text) },
+      { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
+    ];
+    return <Table columns={expandedColumns} dataSource={row.orderFulfillments} pagination={false} rowKey="id" />
+  }
 
   useEffect(() => {
     if (orderId) {
       dispatch(ProductOrderCreators.fetchProductOrder(orderId))
     }
+    //eslint-disable-next-line
   }, [orderId])
 
   useEffect(() => {
@@ -66,7 +97,9 @@ const ProductOrderDetailPage: React.FC = () => {
       setFulfillmentVisible(false)
       setSelectedOrderDetail(null)
       fulfillmentForm.resetFields()
+      dispatch(ProductOrderCreators.fetchProductOrder(orderId))
     }
+    //eslint-disable-next-line
   }, [productOrderState.post_fulfillment_success, productOrderState.posting_fulfillment])
 
   return (
@@ -137,6 +170,7 @@ const ProductOrderDetailPage: React.FC = () => {
                 dataSource={product_order?.orderDetails.map((item, index) => ({...item, index: index}))}
                 rowKey="index"
                 pagination={false}
+                expandable={{ expandedRowRender, defaultExpandedRowKeys: ['0'] }}
               />
             </Col>
           </Row>

@@ -2,7 +2,7 @@ import { Breadcrumb, Col, Input, Row, Select, Form, Table, Space, Divider, messa
 import AppLayout from "../../../layout"
 import { useNavigate } from "react-router-dom"
 import { useCallback, useEffect, useState } from "react"
-import { ICreateProductOrderRequest, IProductOrder, IProductOrderState, OrderDetail } from "../../../models/product.order.model"
+import { ICreateProductOrderRequest, IProductOrder, IProductOrderState, IOrderDetail } from "../../../models/product.order.model"
 import { useAppDispatch, useAppSelector } from '../../../redux_store/hook'
 import { Creators as ProductCreators } from '../../../services/redux/product/actions'
 import { Creators as CustomerCreators } from '../../../services/redux/customer/actions'
@@ -28,7 +28,7 @@ const AddNewOrderPage: React.FC = () => {
   const navigate = useNavigate()
    // eslint-disable-next-line
   const [order, setOrder] = useState<IProductOrder>()
-  const [productQuantity, setProductQuantity] = useState<OrderDetail[]>([])
+  const [productQuantity, setProductQuantity] = useState<IOrderDetail[]>([])
   const [orderForm] = Form.useForm()
 
   const productState: IProductState = useAppSelector(state => state.product)
@@ -38,6 +38,7 @@ const AddNewOrderPage: React.FC = () => {
 
   const dispatch = useAppDispatch()
 
+  //eslint-disable-next-line
   const onChangeDebounceFn = useCallback(
     _debounce(filterProducts, 1000), 
     //eslint-disable-next-line
@@ -47,7 +48,7 @@ const AddNewOrderPage: React.FC = () => {
     dispatch(ProductCreators.fetchProducts({ productName: value}))
   }
 
-  const colums: ColumnsType<OrderDetail> = [
+  const colums: ColumnsType<IOrderDetail> = [
     {
       title: 'Product',
       dataIndex: 'product',
@@ -95,6 +96,7 @@ const AddNewOrderPage: React.FC = () => {
     dispatch(CustomerCreators.fetchCustomers({}))
     dispatch(AirlineCreators.fetchAirlines({}))
     dispatch(ProductCreators.fetchProducts({}))
+    //eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -102,6 +104,7 @@ const AddNewOrderPage: React.FC = () => {
       orderForm.resetFields()
       setProductQuantity([])
     }
+    //eslint-disable-next-line
   }, [productOrderState.posting, productOrderState.post_success])
 
 
