@@ -96,7 +96,7 @@ const ProductOrderDetailPage: React.FC = () => {
     if(!productOrderState.posting_fulfillment && productOrderState.post_fulfillment_success) {
       setFulfillmentVisible(false)
       setSelectedOrderDetail(null)
-      fulfillmentForm.resetFields()
+      fulfillmentForm.resetFields() 
       dispatch(ProductOrderCreators.fetchProductOrder(orderId))
     }
     //eslint-disable-next-line
