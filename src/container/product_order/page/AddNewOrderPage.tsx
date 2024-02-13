@@ -56,7 +56,7 @@ const AddNewOrderPage: React.FC = () => {
       render: (text, row) => row.product?.name
     },
     {
-      title: 'Quantity',
+      title: 'Quantity (Packs)',
       dataIndex: 'quantity',
       key: 'quantity',
       width: '200px',
@@ -76,6 +76,12 @@ const AddNewOrderPage: React.FC = () => {
           }} 
         />
       )
+    },
+    {
+      title: 'No. of Items',
+      dataIndex: 'noOfItems',
+      key: 'noOfItems',
+      render: (text, row) => `${(row.quantity) * row?.product.quantityPerPack}`
     },
     {
       title: 'Actions',

@@ -47,6 +47,11 @@ const ProductList: React.FC<Props> = ({
       key: 'packWeightInKg',
     },
     {
+      title: 'Quantity Per Pack',
+      dataIndex: 'quantityPerPack',
+      key: 'quantityPerPack',
+    },
+    {
       title: 'Description',
       dataIndex: 'description',
       key: 'description'
