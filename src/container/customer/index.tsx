@@ -120,7 +120,7 @@ const CustomerIndex: React.FC = () => {
 
       <Modal
         open={createVisible}
-        title='ADD NEW PRODUCT CATEGORY'
+        title='ADD NEW CUSTOMER'
         footer={false}
         onCancel={() => {
           setCreateVisible(false)
@@ -142,7 +142,7 @@ const CustomerIndex: React.FC = () => {
 
       <Modal
         open={editVisible}
-        title='EDIT PRODUCT CATEGORY'
+        title='EDIT CUSTOMER'
         footer={false}
         onCancel={() => {
           setEditVisible(false)
@@ -166,8 +166,8 @@ const CustomerIndex: React.FC = () => {
       
       <ConfirmModal 
         open={deleteVisible}
-        title='Delete Product Category'
-        description={`Are you sure you want to delete this product category (${selected_customer?.name})`}
+        title='Delete Airline'
+        description={`Are you sure you want to delete this airline (${selected_customer?.name})`}
         onCancel={() => {
           setDeleteVisible(false)
           dispatch(Creators.setSelectedCustomer(null))

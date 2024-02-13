@@ -181,8 +181,8 @@ const ProductIndex: React.FC = () => {
       
       <ConfirmModal 
         open={deleteVisible}
-        title='Delete Product Category'
-        description={`Are you sure you want to delete this product category (${selected_product?.name})`}
+        title='Delete Product'
+        description={`Are you sure you want to delete this product (${selected_product?.name})`}
         onCancel={() => {
           setDeleteVisible(false)
           dispatch(Creators.setSelectedProduct(null))

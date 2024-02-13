@@ -108,7 +108,7 @@ const AirlineIndex: React.FC = () => {
 
       <Modal
         open={createVisible}
-        title='ADD NEW PRODUCT CATEGORY'
+        title='ADD NEW AIRLINE'
         footer={false}
         onCancel={() => {
           setCreateVisible(false)
@@ -127,7 +127,7 @@ const AirlineIndex: React.FC = () => {
 
       <Modal
         open={editVisible}
-        title='EDIT PRODUCT CATEGORY'
+        title='EDIT AIRLINE'
         footer={false}
         onCancel={() => {
           setEditVisible(false)
@@ -147,8 +147,8 @@ const AirlineIndex: React.FC = () => {
       
       <ConfirmModal 
         open={deleteVisible}
-        title='Delete Product Category'
-        description={`Are you sure you want to delete this product category (${selected_airline?.name})`}
+        title='Delete Airline'
+        description={`Are you sure you want to delete this airline (${selected_airline?.name})`}
         onCancel={() => {
           setDeleteVisible(false)
           dispatch(Creators.setSelectedAirline(null))
