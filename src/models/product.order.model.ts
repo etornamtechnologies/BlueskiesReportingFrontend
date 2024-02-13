@@ -31,6 +31,11 @@ export interface IOrderDetail {
   orderFulfillments?: Array<IOrderFulfillment>
 }
 
+export enum OrderStatus {
+  PENDING = "PENDING",
+  COMPLETED = "COMPLETED"
+}
+
 export interface ICreateProductOrderRequest {
   customerId: string
   airlineId: string
@@ -55,6 +60,8 @@ export interface ICreateMultipleProductOrderRequest {
 
 export interface IProductOrderQueryParams extends QueryParams {
   filter?: string
+  pageNo?: number
+  pageSize?: number
 }
 
 export interface INewOrder {
@@ -78,6 +85,8 @@ export interface IProductOrderState {
   fetching: boolean
   product_orders: Array<IProductOrder>
   has_next: boolean
+  page_no: number
+  page_size: number
   new_order: INewOrder | null
   product_order: IProductOrder | null
   selected_product_order: IProductOrder | null

@@ -1,13 +1,15 @@
 
 import { IAddFulfillmentRequest, IProductOrder, IProductOrderQueryParams } from '../../models/product.order.model'
+import { serializeQueryParamsOnNull } from '../../utils/common.helper'
 import apiService from './api.service'
 
 class ProductOrderApiService {
 
   public async fetchProductOrders(query: IProductOrderQueryParams): Promise<IProductOrder[]> {
+    const queryStr = serializeQueryParamsOnNull(query)
     return apiService.axiosCall<IProductOrder[]>({
       method: 'GET',
-      url: '/productOrders'
+      url: `/productOrders${queryStr}`
     })
   }
 

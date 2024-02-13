@@ -1,12 +1,14 @@
 import { createReducer } from 'reduxsauce'
 import Types from './actionTypes'
-import { INewOrder, IProductOrder, IProductOrderAction, IProductOrderState } from '../../../models/product.order.model'
+import { INewOrder, IProductOrder, IProductOrderAction, IProductOrderQueryParams, IProductOrderState } from '../../../models/product.order.model'
 
 
 export const INITIAL_STATE: IProductOrderState = {
   fetching: false,
   product_orders: [],
   has_next: false,
+  page_size: 5,
+  page_no: 0,
   product_order: null,
   selected_product_order: null,
   error: '',
@@ -20,17 +22,26 @@ export const INITIAL_STATE: IProductOrderState = {
 
 // ======== FETCH ALL PRODUCT_ORDERS =======
 export const fetchProductOrders = (state = INITIAL_STATE, action: IProductOrderAction): IProductOrderState => {
+  // const { 
+  //   pageNo,
+  //   pageSize
+  //  } = action.query as IProductOrderQueryParams
+
   return {
     ...state,
+    // page_no: pageNo as number,
+    // page_size: pageSize as number,
     fetching: true
   }
 }
 
 export const fetchProductOrdersSuccess = (state = INITIAL_STATE, action: IProductOrderAction): IProductOrderState => {
-  const { hasNext, data } = action.data as IPaginatedData<IProductOrder[]>
+  const { hasNext, data, pageNo, pageSize } = action.data as IPaginatedData<IProductOrder[]>
   return {
     ...state,
     fetching: false,
+    page_no: pageNo,
+    page_size: pageSize,
     product_orders: data.map(item => {
       return {
         ...item, orderDetails: item.orderDetails.map(od => {

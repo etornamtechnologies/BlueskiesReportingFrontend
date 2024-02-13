@@ -216,6 +216,7 @@ const AddNewOrderPage: React.FC = () => {
                 <Form.Item<ProductOrderFormFieldType>
                   label='Description'
                   name='description'
+                  rules={[{ required: true, message: 'Description cannot be empty' }]}
                 >
                   <Input.TextArea rows={2} placeholder="Description..." />
                 </Form.Item>

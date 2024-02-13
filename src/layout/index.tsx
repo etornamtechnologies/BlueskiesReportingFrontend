@@ -1,6 +1,7 @@
 import { Layout, theme, Menu, Button, MenuProps, Row, Col } from 'antd'
 import { useState } from 'react'
 import {
+  BarChartOutlined,
   BookOutlined,
   DashboardOutlined,
   LeftOutlined,
@@ -59,6 +60,8 @@ const AppLayout: React.FC<Props> = ({
       setCurrent("products")
     } else if(pathname === '/product-orders' || pathname.includes('/product-orders/add-new') || pathname.includes('/product-orders/view-detail')) {
       setCurrent('product-orders')
+    } else if(pathname === '/reports') {
+      setCurrent('reports')
     } else {
       setCurrent("/")
     }
@@ -110,6 +113,11 @@ const AppLayout: React.FC<Props> = ({
               key: 'product-categories',
               icon: <BookOutlined />,
               label: 'Product Category'
+            },
+            {
+              key: 'reports',
+              icon: <BarChartOutlined />,
+              label: 'Reports'
             }
           ]}
         />

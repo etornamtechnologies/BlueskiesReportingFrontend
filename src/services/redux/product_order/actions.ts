@@ -28,6 +28,8 @@ const { Types, Creators } = createActions(
     addFulfillmentSuccess: ['data'],
     addFulfillmentFailure: ['error'],
 
+    filterByStatus: ['filter'],
+
     addNewOrder: ['data'],
     updateNewOrder: ['data'],
     resetNewOrder: null,

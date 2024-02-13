@@ -11,5 +11,7 @@ interface QueryParams {
 
 interface IPaginatedData<T> {
   data: T,
-  hasNext: boolean
+  hasNext: boolean,
+  pageNo: number
+  pageSize: number
 }

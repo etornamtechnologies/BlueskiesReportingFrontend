@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Col, Divider, Table, List, Row, Space, Spin, Modal, Form, Input, TableColumnsType } from "antd"
+import { Breadcrumb, Button, Col, Divider, Table, List, Row, Space, Spin, Modal, Form, Input, TableColumnsType, message } from "antd"
 import AppLayout from "../../../layout"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -208,6 +208,14 @@ const ProductOrderDetailPage: React.FC = () => {
             const payload: IAddFulfillmentRequest = {
               productOrderId: product_order?.id as string,
               orderDetails: [{productId: selectedorderDetail?.product.id as string, quantity: values?.quantity as number}]
+            }
+            const quantityRequested: number = selectedorderDetail?.quantity as number
+            const totalQuantityFulfilled: number = selectedorderDetail?.orderFulfillments?.reduce((accumulator, item) => {
+              return accumulator + item.quantity
+            }, 0) as number
+            if((quantityRequested - totalQuantityFulfilled) < values?.quantity) {
+              fulfillmentForm.setFieldsValue({ quantity: 1 })
+              return message.error("Quantity cannot be greater than quantity ordered")
             }
             dispatch(ProductOrderCreators.addFulfillment(payload))
           }}

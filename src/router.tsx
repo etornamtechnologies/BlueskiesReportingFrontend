@@ -7,6 +7,7 @@ import AirlineIndex from "./container/airline";
 import ProductOrderIndex from "./container/product_order";
 import AddNewOrderPage from "./container/product_order/page/AddNewOrderPage";
 import ProductOrderDetailPage from "./container/product_order/page/ProductOrderDetailsPage";
+import ReportIndex from "./container/report";
 
 
 export const router = createBrowserRouter([
@@ -67,4 +68,13 @@ export const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path: '/reports',
+    children: [
+      {
+        path: '',
+        element: <ReportIndex />
+      }
+    ]
+  }
 ])

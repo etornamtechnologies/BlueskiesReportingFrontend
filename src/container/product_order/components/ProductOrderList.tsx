@@ -2,6 +2,7 @@ import { ColumnsType } from "antd/es/table"
 import { Col, Row, Space, Tooltip, Table } from "antd"
 import { IProductOrder } from "../../../models/product.order.model"
 import { InfoCircleTwoTone } from "@ant-design/icons"
+import { prettifyDateTime } from "../../../utils/common.helper"
 
 type Props = {
   product_orders: Array<IProductOrder>
@@ -46,7 +47,8 @@ const ProductOrderList: React.FC<Props> = ({
     {
       title: 'Created At',
       dataIndex: 'createdAt',
-      key: 'createdAt'
+      key: 'createdAt',
+      render: text => prettifyDateTime(text)
     },
     {
       title: 'Actions',
