@@ -40,7 +40,7 @@ const ProductOrderDetailPage: React.FC = () => {
       render: (text, row) => row.product?.name
     },
     {
-      title: 'Quantity Ordered',
+      title: 'Quantity Processed',
       dataIndex: 'quantity',
       key: 'quantity',
       render: (text, row) => row?.quantity
@@ -79,7 +79,8 @@ const ProductOrderDetailPage: React.FC = () => {
 
   const expandedRowRender = (row: IOrderDetail) => {
     const expandedColumns: TableColumnsType<IOrderFulfillment> = [
-      { title: 'Created On', dataIndex: 'createdAt', key: 'createdAd', render: text => prettifyDateTime(text) },
+      { title: 'Created By', dataIndex: 'createdBy', key: 'createdby', render: text => text || 'N/A' },
+      { title: 'Created On', dataIndex: 'createdAt', key: 'createdAt', render: text => prettifyDateTime(text) },
       { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
     ];
     return <Table columns={expandedColumns} dataSource={row.orderFulfillments} pagination={false} rowKey="id" />
