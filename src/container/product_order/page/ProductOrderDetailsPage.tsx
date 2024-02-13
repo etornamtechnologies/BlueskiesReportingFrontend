@@ -40,7 +40,7 @@ const ProductOrderDetailPage: React.FC = () => {
       render: (text, row) => row.product?.name
     },
     {
-      title: 'Quantity',
+      title: 'Quantity Ordered',
       dataIndex: 'quantity',
       key: 'quantity',
       render: (text, row) => row?.quantity
