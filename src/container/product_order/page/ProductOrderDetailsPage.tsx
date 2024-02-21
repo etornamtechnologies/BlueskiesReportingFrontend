@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Col, Divider, Table, List, Row, Space, Spin, Modal, Form, Input, TableColumnsType, message } from "antd"
+import { Breadcrumb, Button, Col, Divider, Table, List, Row, Space, Spin, Modal, Form, Input, TableColumnsType, message, Card } from "antd"
 import AppLayout from "../../../layout"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -129,6 +129,7 @@ const ProductOrderDetailPage: React.FC = () => {
     >
       {fetching ? <Spin /> : (
         <>
+          <Card>
           <Row>
             <Col span={12}>
               <List>
@@ -157,8 +158,9 @@ const ProductOrderDetailPage: React.FC = () => {
               </List>
             </Col>
           </Row>
-          <Divider />
-          <Row>
+          </Card>
+          <Card style={{ marginTop: 20 }}>
+          <Row style={{ marginBottom: 10 }}>
             <Col span={24}>
               <span>PRODUCTS</span>
             </Col>
@@ -175,6 +177,7 @@ const ProductOrderDetailPage: React.FC = () => {
               />
             </Col>
           </Row>
+          </Card>
         </>
       )}
 

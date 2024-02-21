@@ -1,13 +1,13 @@
 import { ColumnsType } from "antd/es/table"
 import { Col, Row, Space, Tooltip, Table } from "antd"
 import { IProductOrder } from "../../../models/product.order.model"
-import { InfoCircleTwoTone } from "@ant-design/icons"
+import { EditOutlined, EyeOutlined} from "@ant-design/icons"
 import { prettifyDateTime } from "../../../utils/common.helper"
 
 type Props = {
   product_orders: Array<IProductOrder>
   loading: boolean
-  onEdit?: (row: IProductOrder) => void
+  onEdit: (row: IProductOrder) => void
   onDelete: (row: IProductOrder) => void
   onView: (row: IProductOrder) => void
 }
@@ -56,12 +56,12 @@ const ProductOrderList: React.FC<Props> = ({
       key: 'actions',
       render: (text, row) => (
         <Space wrap>
+        <Tooltip title='Edit'>
+          <EditOutlined onClick={() => onEdit(row)}  style={{ color: 'black' }}/>
+        </Tooltip>
           <Tooltip title='Details'>
-            <InfoCircleTwoTone style={{ color: 'black' }} onClick={() => onView(row)} />
+            <EyeOutlined style={{ color: 'black' }} onClick={() => onView(row)} />
           </Tooltip>
-          {/* <Tooltip title='Edit'>
-            <EditOutlined style={{ color: 'black' }}/>
-          </Tooltip> */}
         </Space>
       )
     }

@@ -7,7 +7,7 @@ import * as dateFormatter from 'dateformat'
 
 
 export function getErrorMessageFromApiError(error: any | unknown): string {
-  return error?.response?.data?.message || 'Network Error! Please try again later'
+  return error?.response?.data?.error || 'Network Error! Please try again later'
 }
 
 

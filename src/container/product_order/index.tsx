@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom"
 const ProductOrderIndex: React.FC = () => {
   const {
     product_orders,
+    product_order,
     selected_product_order,
     post_success,
     posting,
@@ -36,8 +37,8 @@ const ProductOrderIndex: React.FC = () => {
     dispatch(Creators.resetProductOrder())
     dispatch(Creators.fetchProductOrders({ pageSize: 10000, pageNo: 0 }))
     dispatch(ProductCreators.fetchProducts({}))
-    dispatch(CustomerCreators.fetchCustomers({}))
-    dispatch(AirlineCreators.fetchAirlines({}))
+    // dispatch(CustomerCreators.fetchCustomers({}))
+    // dispatch(AirlineCreators.fetchAirlines({}))
     // eslint-disable-next-line
   }, [])
 
@@ -63,20 +64,6 @@ const ProductOrderIndex: React.FC = () => {
           </Col>
           <Col span={12} style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
             <Space>
-              <Select 
-                value={filterStatus}  
-                style={{ width: 200 }}
-                onChange={(value) => {
-                  setFilterStatus(value)
-                }}
-              >
-                <Select.Option value="">
-                  ALL
-                </Select.Option>
-                {Object.keys(OrderStatus).map(item => (
-                  <Select.Option key={item} value={item}>{item}</Select.Option>
-                ))}
-              </Select>
               <Input.Search 
                 placeholder="search..."
                 value={search}
@@ -104,18 +91,9 @@ const ProductOrderIndex: React.FC = () => {
           <ProductOrderList
             product_orders={product_orders}
             loading={fetching}
-            // onEdit={(row: IProductOrder) => {
-            //   dispatch(Creators.setSelectedProductOrder(row))
-            //   editForm.setFieldsValue({
-            //     productId: row.product.id as string,
-            //     customerId: row.customer.id,
-            //     airlineId: row.airline.id,
-            //     quantity: row.quantity,
-            //     description: row.description,
-            //     flight: row.flight
-            //   })
-            //   setEditVisible(true)
-            // }}
+            onEdit={(row: IProductOrder) => {
+              navigate(`/product-orders/edit/${row?.id}`)
+            }}
             onView={(row: IProductOrder) => {
               navigate(`/product-orders/view-detail/${row.id}`)
             }}

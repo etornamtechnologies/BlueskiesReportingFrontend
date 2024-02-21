@@ -4,7 +4,7 @@ import ApiService from '../../api/product.order.api'
 import { getErrorMessageFromApiError } from '../../../utils/common.helper'
 // eslint-disable-next-line
 import { AxiosError } from 'axios'
-import { IAddFulfillmentRequest, IProductOrder, IProductOrderAction, IProductOrderQueryParams } from '../../../models/product.order.model'
+import { IAddFulfillmentRequest, IProductOrder, IProductOrderAction, IProductOrderQueryParams, IUpdateProductOrderDetailRequest, IUpdateProductOrderRequest } from '../../../models/product.order.model'
 import { message } from 'antd'
 
 
@@ -25,10 +25,12 @@ export function* fetchProductOrder(action: IProductOrderAction) {
   const { id } = action
   try {
     const response: IProductOrder = yield call(apiService.fetchProductOrderById, id)
+    console.log('----- fetch product order response', response)
     yield put(Creators.fetchProductOrderSuccess(response))
   } catch(error: AxiosError | unknown) {
-    const errorMessage = getErrorMessageFromApiError(error) || 'Network Error!'
-    yield put(Creators.fetchProductOrderFailure(errorMessage))
+    console.log('errors data 000', error)
+    //const errorMessage = getErrorMessageFromApiError(error) || 'Network Error!'
+    yield put(Creators.fetchProductOrderFailure("Failed"))
   }
 }
 
@@ -55,9 +57,23 @@ export function* addFulfillment(action: IProductOrderAction) {
 }
 
 export function* putProductOrder(action: IProductOrderAction) {
-  const { id, payload } = action
+  const id = action.id
+  const payload = action.payload as IUpdateProductOrderRequest
   try {
     const response: IProductOrder = yield call(apiService.putProductOrder, id, payload)
+    yield put(Creators.putProductOrderSuccess(response))
+    message.success('Order updated!')
+  } catch(error: any | unknown) {
+    yield put(Creators.putProductOrderFailure(getErrorMessageFromApiError(error)))
+  }
+}
+
+export function* putProductOrderDetail(action: IProductOrderAction) {
+  const productOrderId = action.productOrderId as string
+  const orderDetailId = action.orderDetailId as string
+  const payload = action.payload as IUpdateProductOrderDetailRequest
+  try {
+    const response: IProductOrder = yield call(apiService.putProductOrderDetail, productOrderId, orderDetailId, payload)
     yield put(Creators.putProductOrderSuccess(response))
     message.success('Order updated!')
   } catch(error: any | unknown) {
@@ -87,7 +103,8 @@ function* userSaga() {
     takeLeading(Types.POST_PRODUCT_ORDER, postProductOrder),
     takeLeading(Types.PUT_PRODUCT_ORDER, putProductOrder),
     takeLeading(Types.DELETE_PRODUCT_ORDER, deleteProductOrder),
-    takeLeading(Types.ADD_FULFILLMENT, addFulfillment)
+    takeLeading(Types.ADD_FULFILLMENT, addFulfillment),
+    takeLeading(Types.PUT_PRODUCT_ORDER_DETAIL, putProductOrderDetail)
   ])
 }
 

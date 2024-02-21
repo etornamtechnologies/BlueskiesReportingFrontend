@@ -8,9 +8,25 @@ import ProductOrderIndex from "./container/product_order";
 import AddNewOrderPage from "./container/product_order/page/AddNewOrderPage";
 import ProductOrderDetailPage from "./container/product_order/page/ProductOrderDetailsPage";
 import ReportIndex from "./container/report";
+import EditProductOrderPage from "./container/product_order/page/EditProductOrderPage";
+import SignInIndex from "./container/auth/signin";
+import SignUpIndex from "./container/auth/signup";
 
 
 export const router = createBrowserRouter([
+  {
+    path: '/auth',
+    children: [
+      {
+        path: 'signin',
+        element: <SignInIndex />
+      },
+      {
+        path: 'signup',
+        element: <SignUpIndex />
+      }
+    ]
+  },
   {
     path: '/',
     element: <DashboardIndex />
@@ -38,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: 'view-detail/:orderId',
         element: <ProductOrderDetailPage />
+      },
+      {
+        path: 'edit/:orderId',
+        element: <EditProductOrderPage />
       }
     ]
   },

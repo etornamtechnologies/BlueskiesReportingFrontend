@@ -2,6 +2,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { applicationConfig } from '../../config/app.config'
 import { getAccessTokenFromLocalStorage } from "../../utils/common.helper";
+import { message } from "antd";
 
 
 class ApiService {
@@ -24,19 +25,22 @@ class ApiService {
     this.axiosInstance.interceptors.response.use((response: AxiosResponse) => {
       return response
     }, (error: AxiosError) => {
-      console.log('hey catch error', error)
-      if(error?.code === "ERR_NETWORK") {
-        console.error("API NOT AVAILABLE")
-        return
-      } else if (error?.code === '"ERR_BAD_REQUEST"') {
-        console.error("BAD REQUEST")
-      }
+      //console.log('hey catch error', error)
+      const errData = error?.response?.data as {status: number, error: string, path: string} 
+      console.log('-----> Error Data', errData)
+      message.error(errData?.error || "Failed")
+      // if(error?.code === "ERR_NETWORK") {
+      //   console.error("API NOT AVAILABLE")
+      //   return
+      // } else if (error?.code === '"ERR_BAD_REQUEST"') {
+      //   console.error("BAD REQUEST")
+      // }
       //const responseData = error?.response?.data as any
       //const errorMessage = responseData?.message || error?.message
-      if(error?.response?.status === 401) {
+      if(errData?.status === 401) {
         window.location.replace('/auth/login')
       }
-      Promise.reject(error)
+      //Promise.reject(errData)
     })
   }
 

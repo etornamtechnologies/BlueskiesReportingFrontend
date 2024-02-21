@@ -58,6 +58,19 @@ export interface ICreateMultipleProductOrderRequest {
   flight: string
 }
 
+export interface IUpdateProductOrderRequest {
+  customerId: string
+  airlineId: string
+  description: string
+  flight: string,
+  requiredDate: string
+}
+
+export interface IUpdateProductOrderDetailRequest {
+  productId: string
+  quantity: number
+}
+
 export interface IProductOrderQueryParams extends QueryParams {
   filter?: string
   pageNo?: number
@@ -100,7 +113,7 @@ export interface IProductOrderState {
 export interface IProductOrderAction {
   type: string
   query?: IProductOrderQueryParams
-  payload?: ICreateProductOrderRequest | IAddFulfillmentRequest
+  payload?: ICreateProductOrderRequest | IAddFulfillmentRequest | IUpdateProductOrderDetailRequest
   data?: IProductOrder | Array<IProductOrder> | IPaginatedData<IProductOrder[]> | INewOrder
   filter?: string
   [other: string]: any

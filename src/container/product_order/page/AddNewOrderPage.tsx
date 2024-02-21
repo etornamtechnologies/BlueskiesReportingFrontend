@@ -15,13 +15,9 @@ import ProductAutoComplete from "../components/ProductAutoComplete"
 import { ColumnsType } from "antd/es/table"
 import { DeleteOutlined } from "@ant-design/icons"
 import _debounce from "lodash/debounce"
+import { ProductOrderFormFieldType } from "../components/ProductOrderBasicForm"
 
-export type ProductOrderFormFieldType = {
-  customerId: string
-  airlineId: string
-  description: string
-  flight: string
-}
+
 
 const AddNewOrderPage: React.FC = () => {
 

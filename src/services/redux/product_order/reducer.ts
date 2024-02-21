@@ -77,6 +77,9 @@ export const fetchProductOrderSuccess = (state = INITIAL_STATE, action: IProduct
     product_order: {...data, orderDetails: data.orderDetails.map(od => {
       return {...od, orderFulfillments: data.orderFulfillments?.filter(of => of.product.id === od.product.id)}
     })},
+    selected_product_order: {...data, orderDetails: data.orderDetails.map(od => {
+      return {...od, orderFulfillments: data.orderFulfillments?.filter(of => of.product.id === od.product.id)}
+    })},
     error: ''
   }
 }
@@ -111,6 +114,34 @@ export const putProductOrderSuccess = (state = INITIAL_STATE, actions: IProductO
 }
 
 export const putProductOrderFailure = (state = INITIAL_STATE, actions: IProductOrderAction): IProductOrderState => {
+  return {
+    ...state,
+    posting: false,
+    error: actions.error as string
+  }
+}
+
+//======================Put Order Detail=============
+
+export const putProductOrderDetail = (state = INITIAL_STATE, actions: IProductOrderAction): IProductOrderState => {
+  return {
+    ...state,
+    posting: true,
+    error: ''
+  }
+}
+
+export const putProductOrderDetailSuccess = (state = INITIAL_STATE, actions: IProductOrderAction): IProductOrderState => {
+  const data = actions.data as IProductOrder
+  return {
+    ...state,
+    posting: false,
+    product_order: data,
+    post_success: true
+  }
+}
+
+export const putProductOrderDetailFailure = (state = INITIAL_STATE, actions: IProductOrderAction): IProductOrderState => {
   return {
     ...state,
     posting: false,
@@ -252,6 +283,10 @@ export const HANDLERS = {
   [Types.PUT_PRODUCT_ORDER]: putProductOrder,
   [Types.PUT_PRODUCT_ORDER_SUCCESS]: putProductOrderSuccess,
   [Types.PUT_PRODUCT_ORDER_FAILURE]: putProductOrderFailure,
+
+  [Types.PUT_PRODUCT_ORDER_DETAIL]: putProductOrderDetail,
+  [Types.PUT_PRODUCT_ORDER_DETAIL_SUCCESS]: putProductOrderDetailSuccess,
+  [Types.PUT_PRODUCT_ORDER_DETAIL_FAILURE]: putProductOrderDetailFailure,
 
   [Types.DELETE_PRODUCT_ORDER]: deleteProductOrder,
   [Types.DELETE_PRODUCT_ORDER_SUCCESS]: deleteProductOrderSuccess,

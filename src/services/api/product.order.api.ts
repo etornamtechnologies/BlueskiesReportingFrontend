@@ -1,5 +1,5 @@
 
-import { IAddFulfillmentRequest, IProductOrder, IProductOrderQueryParams } from '../../models/product.order.model'
+import { IAddFulfillmentRequest, IProductOrder, IProductOrderQueryParams, IUpdateProductOrderDetailRequest, IUpdateProductOrderRequest } from '../../models/product.order.model'
 import { serializeQueryParamsOnNull } from '../../utils/common.helper'
 import apiService from './api.service'
 
@@ -28,10 +28,18 @@ class ProductOrderApiService {
     })
   }
 
-  public async putProductOrder(id: string, payload: any): Promise<IProductOrder> {
+  public async putProductOrder(id: string, payload: IUpdateProductOrderRequest): Promise<IProductOrder> {
     return apiService.axiosCall<IProductOrder>({
       method: 'PUT',
       url: `/productOrders/${id}`,
+      data: payload
+    })
+  }
+
+  public async putProductOrderDetail(id: string, orderDetailId: string, payload: IUpdateProductOrderDetailRequest): Promise<IProductOrder> {
+    return apiService.axiosCall<IProductOrder>({
+      method: 'PUT',
+      url: `/productOrders/${id}/orderDetails/${orderDetailId}`,
       data: payload
     })
   }
@@ -51,12 +59,7 @@ class ProductOrderApiService {
     })
   }
 
-
-
   
-  
-  
-
   
 }
 
