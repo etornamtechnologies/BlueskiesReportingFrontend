@@ -13,6 +13,7 @@ import {
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
+import AuthMiddleware from '../middlewares/auth.middleware';
 const { Sider, Header, Content, Footer } = Layout;
 
 type Props = {
@@ -41,26 +42,27 @@ const AppLayout: React.FC<Props> = ({
     if(e.keyPath[0] === '/') {
       navigate('/')
     } else {
-      navigate(`/${e.keyPath.join('/')}`)
+      navigate(`/app/${e.keyPath.join('/')}`)
     }
   };
 
   React.useEffect(()=> {
     const { pathname } = location
-    console.log('--------------> pathname', pathname)
-    if(pathname === '/') {
+    if(pathname === '/app') {
       setCurrent("/")
-    } else if(pathname === '/airlines') {
+    } else if(pathname === '/app/airlines') {
       setCurrent("airlines")
-    } else if(pathname === '/customers') {
+    } else if(pathname === '/app/customers') {
       setCurrent('customers')
-    } else if(pathname === '/product-categories') {
+    } else if(pathname === '/app/product-categories') {
       setCurrent("product-categories")
-    } else if(pathname === '/products') {
+    } else if(pathname === '/app/products') {
       setCurrent("products")
-    } else if(pathname === '/product-orders' || pathname.includes('/product-orders/add-new') || pathname.includes('/product-orders/view-detail')) {
+    } else if(pathname === '/app/users') {
+      setCurrent('users')
+    } else if(pathname === '/app/product-orders' || pathname.includes('/app/product-orders/add-new') || pathname.includes('/app/product-orders/view-detail')) {
       setCurrent('product-orders')
-    } else if(pathname === '/reports') {
+    } else if(pathname === '/app/reports') {
       setCurrent('reports')
     } else {
       setCurrent("/")
@@ -69,6 +71,7 @@ const AppLayout: React.FC<Props> = ({
   }, [current])
 
   return (
+    <AuthMiddleware>
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div style={{ width: '100%', padding: 5, height: 50, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -115,6 +118,11 @@ const AppLayout: React.FC<Props> = ({
               label: 'Product Category'
             },
             {
+              key: 'users',
+              icon: <UserOutlined />,
+              label: 'Users'
+            },
+            {
               key: 'reports',
               icon: <BarChartOutlined />,
               label: 'Reports'
@@ -158,6 +166,7 @@ const AppLayout: React.FC<Props> = ({
         </Footer>
       </Layout>
     </Layout>
+    </AuthMiddleware>
   )
 }
 export default AppLayout

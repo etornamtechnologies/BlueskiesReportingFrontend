@@ -1,14 +1,4 @@
-export interface IUser {
-  id: string
-  firstName: string
-  lastname: string
-  email: string
-  role: ERole
-}
-
-export enum ERole {
-  ADMIN = 'ADMIN'
-}
+import { ERole, IUser } from "./user.model"
 
 export interface ILoginRequest {
   email: string
@@ -18,6 +8,7 @@ export interface ILoginRequest {
 export interface ILoginResponse {
   token: string
   expiredIn: number
+  user: IUser
 }
 
 export interface ISignUpRequest {

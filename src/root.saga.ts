@@ -6,6 +6,7 @@ import productSaga from './services/saga/product'
 import productCategorySaga from './services/saga/product_category'
 import productOrderSaga from './services/saga/product_order'
 import authSaga from './services/saga/auth'
+import userSaga from './services/saga/user'
 
 
 export default function* rootSaga() {
@@ -15,6 +16,7 @@ export default function* rootSaga() {
     fork(productSaga),
     fork(productCategorySaga),
     fork(productOrderSaga),
-    fork(authSaga)
+    fork(authSaga),
+    fork(userSaga)
   ])
 }

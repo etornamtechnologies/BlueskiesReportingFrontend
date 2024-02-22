@@ -1,5 +1,5 @@
 import { Button, Form, FormInstance, Input, Select } from "antd"
-import { ERole } from "../../../../models/auth.model"
+import { ERole } from "../../../../models/user.model"
 
 type Props = {
   initialValues: {email: string, firstName: string, lastName: string, password: string, passwordConfirm: string, role: ERole}

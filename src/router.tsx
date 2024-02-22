@@ -11,6 +11,7 @@ import ReportIndex from "./container/report";
 import EditProductOrderPage from "./container/product_order/page/EditProductOrderPage";
 import SignInIndex from "./container/auth/signin";
 import SignUpIndex from "./container/auth/signup";
+import UserIndex from "./container/user";
 
 
 export const router = createBrowserRouter([
@@ -28,73 +29,87 @@ export const router = createBrowserRouter([
     ]
   },
   {
-    path: '/',
-    element: <DashboardIndex />
-  },
-  {
-    path: '/product-categories',
+    path: '/app',
     children: [
       {
         path: '',
-        element: <ProductCategoryIndex/>
-      },
-    ]
-  },
-  {
-    path: '/product-orders',
-    children: [
-      {
-        path: '',
-        element: <ProductOrderIndex />
+        element: <DashboardIndex />,
       },
       {
-        path: 'add-new',
-        element: <AddNewOrderPage />
+        path: 'product-categories',
+        children: [
+          {
+            path: '',
+            element: <ProductCategoryIndex/>
+          },
+        ]
       },
       {
-        path: 'view-detail/:orderId',
-        element: <ProductOrderDetailPage />
+        path: 'product-orders',
+        children: [
+          {
+            path: '',
+            element: <ProductOrderIndex />
+          },
+          {
+            path: 'add-new',
+            element: <AddNewOrderPage />
+          },
+          {
+            path: 'view-detail/:orderId',
+            element: <ProductOrderDetailPage />
+          },
+          {
+            path: 'edit/:orderId',
+            element: <EditProductOrderPage />
+          }
+        ]
       },
       {
-        path: 'edit/:orderId',
-        element: <EditProductOrderPage />
+        path: 'products',
+        children: [
+          {
+            path: '',
+            element: <ProductIndex/>
+          },
+        ]
+      },
+      {
+        path: 'customers',
+        children: [
+          {
+            path: '',
+            element: <CustomerIndex/>
+          },
+        ]
+      },
+      {
+        path: 'airlines',
+        children: [
+          {
+            path: '',
+            element: <AirlineIndex/>
+          },
+        ]
+      },
+      {
+        path: 'users',
+        children: [
+          {
+            path: '',
+            element: <UserIndex />
+          }
+        ]
+      },
+      {
+        path: 'reports',
+        children: [
+          {
+            path: '',
+            element: <ReportIndex />
+          }
+        ]
       }
     ]
   },
-  {
-    path: '/products',
-    children: [
-      {
-        path: '',
-        element: <ProductIndex/>
-      },
-    ]
-  },
-  {
-    path: '/customers',
-    children: [
-      {
-        path: '',
-        element: <CustomerIndex/>
-      },
-    ]
-  },
-  {
-    path: '/airlines',
-    children: [
-      {
-        path: '',
-        element: <AirlineIndex/>
-      },
-    ]
-  },
-  {
-    path: '/reports',
-    children: [
-      {
-        path: '',
-        element: <ReportIndex />
-      }
-    ]
-  }
 ])

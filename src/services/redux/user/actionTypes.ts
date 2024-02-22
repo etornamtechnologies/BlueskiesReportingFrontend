@@ -1,0 +1,31 @@
+import { createTypes } from 'reduxsauce'
+
+export default createTypes(
+  `
+    FETCH_USERS
+    FETCH_USERS_SUCCESS
+    FETCH_USERS_FAILURE
+
+    FILTER_USERS
+
+    FETCH_USER
+    FETCH_USER_SUCCESS
+    FETCH_USER_FAILURE
+
+    POST_USER
+    POST_USER_SUCCESS
+    POST_USER_FAILURE
+
+    PUT_USER
+    PUT_USER_SUCCESS
+    PUT_USER_FAILURE
+
+    DELETE_USER
+    DELETE_USER_SUCCESS
+    DELETE_USER_FAILURE
+
+    SET_SELECTED_USER
+
+    RESET_USER
+  `,
+)

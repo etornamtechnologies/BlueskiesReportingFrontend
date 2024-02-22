@@ -1,5 +1,9 @@
 
 export const LOCAL_STORAGE_KEYS = {
-  AUTH_USER_KEY: "AUTH_USER",
-  AUTH_ACCESS_TOKEN: "AUTH_ACCESS_TOKEN"
+  AUTH_USER_KEY: "AUTH-USER",
+  AUTH_ACCESS_TOKEN: "AUTH-TOKEN"
+}
+
+export const ROUTES = {
+  LOGIN: '/auth/signin'
 }

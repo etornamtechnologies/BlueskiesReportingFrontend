@@ -1,5 +1,6 @@
 
-import { ILoginRequest, ILoginResponse, ISignUpRequest, IUser } from '../../models/auth.model'
+import { ILoginRequest, ILoginResponse, ISignUpRequest } from '../../models/auth.model'
+import { IUser } from '../../models/user.model'
 import apiService from './api.service'
 
 class AuthApiService {
@@ -13,7 +14,6 @@ class AuthApiService {
   }
 
   public async signUp(payload: ISignUpRequest): Promise<IUser> {
-    console.log('payload', payload)
     return apiService.axiosCall<IUser>({
       method: 'POST',
       url: `/auth/signup`,

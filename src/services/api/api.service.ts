@@ -14,7 +14,7 @@ class ApiService {
     })
 
     this.axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-      
+      console.log('ACCESS TOKEN IN API', getAccessTokenFromLocalStorage())
       if(getAccessTokenFromLocalStorage() && !config.url?.startsWith('/auth')) {
         config['headers']['AUTHORIZATION'] = `Bearer ${getAccessTokenFromLocalStorage()}`
       }
