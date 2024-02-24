@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { ROUTES } from '../utils/constants';
 import { ERole } from '../models/user.model';
@@ -9,7 +9,7 @@ type Props = {
   roles?: ERole[]
 }
 
-const AuthMiddleware = (props: any) => {
+const AuthMiddleware: React.FC<Props> = (props: any) => {
 
   if(!window.localStorage.getItem("AUTH-TOKEN")) {
     return <Navigate to={ROUTES.LOGIN} />

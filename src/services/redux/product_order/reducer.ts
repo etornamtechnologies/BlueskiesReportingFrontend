@@ -1,6 +1,6 @@
 import { createReducer } from 'reduxsauce'
 import Types from './actionTypes'
-import { INewOrder, IProductOrder, IProductOrderAction, IProductOrderQueryParams, IProductOrderState } from '../../../models/product.order.model'
+import { INewOrder, IProductOrder, IProductOrderAction, IProductOrderState } from '../../../models/product.order.model'
 
 
 export const INITIAL_STATE: IProductOrderState = {

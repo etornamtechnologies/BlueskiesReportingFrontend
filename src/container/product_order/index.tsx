@@ -1,13 +1,11 @@
-import { Breadcrumb, Col, FloatButton, Input, Row, Select, Space } from "antd"
+import { Breadcrumb, Col, FloatButton, Input, Row, Space } from "antd"
 import BreadcrumbItem from "antd/es/breadcrumb/BreadcrumbItem"
 import React, { useEffect, useState } from "react"
 import ProductOrderList from "./components/ProductOrderList"
 import { useAppDispatch, useAppSelector } from '../../redux_store/hook'
-import { IProductOrder, OrderStatus } from "../../models/product.order.model"
+import { IProductOrder } from "../../models/product.order.model"
 import { Creators } from '../../services/redux/product_order/actions'
 import { Creators as ProductCreators } from '../../services/redux/product/actions'
-import { Creators as CustomerCreators } from '../../services/redux/customer/actions'
-import { Creators as AirlineCreators } from '../../services/redux/airline/actions'
 import AppLayout from "../../layout"
 import { PlusOutlined } from "@ant-design/icons"
 import ConfirmModal from "../../components/ConfirmModal"
@@ -16,7 +14,6 @@ import { useNavigate } from "react-router-dom"
 const ProductOrderIndex: React.FC = () => {
   const {
     product_orders,
-    product_order,
     selected_product_order,
     post_success,
     posting,
@@ -25,7 +22,6 @@ const ProductOrderIndex: React.FC = () => {
 
   const navigate = useNavigate()
   const [deleteVisible, setDeleteVisible] = useState<boolean>(false)
-  const [filterStatus, setFilterStatus] = useState<string>("")
   const [search, setSearch] = useState<string>("")
   const dispatch = useAppDispatch()
 

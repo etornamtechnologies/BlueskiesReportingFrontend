@@ -1,9 +1,7 @@
 import { Button, Col, DatePicker, Form, FormInstance, Input, Row, Select } from "antd"
 import { ICustomer } from "../../../models/customer.model"
 import { IAirline } from "../../../models/airline.model"
-import dayjs, { Dayjs } from "dayjs"
 import moment from "moment"
-import initCollapseMotion from "antd/es/_util/motion"
 
 export type ProductOrderFormFieldType = {
   customerId: string

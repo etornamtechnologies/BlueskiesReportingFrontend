@@ -1,6 +1,5 @@
 import { createReducer } from 'reduxsauce'
 import Types from './actionTypes'
-import { ICustomer, ICustomerAction, ICustomerState } from '../../../models/customer.model'
 import { IAuthState, IAuthAction, ILoginResponse } from '../../../models/auth.model'
 
 
@@ -52,7 +51,7 @@ export const signUp = (state = INITIAL_STATE, action: IAuthAction): IAuthState =
 }
 
 export const signUpSuccess = (state = INITIAL_STATE, action: IAuthAction): IAuthState => {
-  const { token, expiredIn } = action.data as ILoginResponse
+  //const { token, expiredIn } = action.data as ILoginResponse
   return {
     ...state,
     posting: false,

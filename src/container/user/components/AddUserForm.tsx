@@ -1,5 +1,4 @@
 import { Button, Form, FormInstance, Input, Select } from "antd"
-import { Measurementunits } from "../../../models/product.model"
 import { ERole } from "../../../models/user.model"
 
 type Props = {

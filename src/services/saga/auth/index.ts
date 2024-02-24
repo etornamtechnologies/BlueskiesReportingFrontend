@@ -1,7 +1,7 @@
 import { all, call, put, takeLeading } from 'redux-saga/effects'
 import { Types, Creators } from '../../redux/auth/actions'
 import ApiService from '../../api/auth.api'
-import { getErrorMessageFromApiError, history } from '../../../utils/common.helper'
+import { getErrorMessageFromApiError } from '../../../utils/common.helper'
 // eslint-disable-next-line
 import { AxiosError } from 'axios'
 import { IAuthAction, ILoginRequest, ILoginResponse, ISignUpRequest } from '../../../models/auth.model'

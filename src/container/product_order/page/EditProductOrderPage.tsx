@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Col, Form, Input, List, Modal, Row, Select, Space, Spin, Table, TableColumnsType, message } from "antd"
+import { Breadcrumb, Button, Card, Col, Form, Input, Modal, Row, Select, Space, Spin, Table, TableColumnsType } from "antd"
 import AppLayout from "../../../layout"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -7,7 +7,7 @@ import { Creators as ProductOrderCreators } from "../../../services/redux/produc
 import { Creators as CustomerCreators } from "../../../services/redux/customer/actions"
 import { Creators as AirlineCreators } from "../../../services/redux/airline/actions"
 import { Creators as ProductCreators } from "../../../services/redux/product/actions"
-import { ICreateProductOrderRequest, IProductOrder, IProductOrderState, IOrderDetail, IOrderFulfillment, IUpdateProductOrderDetailRequest, IUpdateProductOrderRequest } from "../../../models/product.order.model"
+import { IProductOrderState, IOrderDetail, IOrderFulfillment, IUpdateProductOrderDetailRequest, IUpdateProductOrderRequest } from "../../../models/product.order.model"
 import { ColumnsType } from "antd/es/table"
 import { prettifyDateTime } from "../../../utils/common.helper"
 import ProductOrderBasicForm from "../components/ProductOrderBasicForm"
@@ -29,9 +29,8 @@ const EditProductOrderPage: React.FC = () => {
   const [editOrderDetailVisible, setEditOrderDetailVisible] = useState<boolean>(false)
   const [selectedOrderDetail, setSelectedOrderDetail] = useState<IOrderDetail | null>(null)
 
-  const [productQuantity, setProductQuantity] = useState<IOrderDetail[]>([])
+
   const [orderForm] = Form.useForm()
-  const [fulfillmentForm] = Form.useForm()
 
   const [orderDetailForm] = Form.useForm()
 
@@ -97,12 +96,14 @@ const EditProductOrderPage: React.FC = () => {
     dispatch(CustomerCreators.fetchCustomers({}))
     dispatch(AirlineCreators.fetchAirlines({}))
     dispatch(ProductCreators.fetchProducts({}))
+    //eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     if (orderId) {
       dispatch(ProductOrderCreators.fetchProductOrder(orderId))
     }
+    //eslint-disable-next-line
   }, [orderId])
 
   useEffect(() => {
@@ -115,6 +116,7 @@ const EditProductOrderPage: React.FC = () => {
         
       })
     }
+    //eslint-disable-next-line
   }, [productOrderState.product_order])
 
   useEffect(() => {
@@ -128,6 +130,7 @@ const EditProductOrderPage: React.FC = () => {
         requiredDate: productOrder.requiredDate
       })
     }
+    //eslint-disable-next-line
   }, [productOrderState.product_order])
 
   return (

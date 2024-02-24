@@ -3,6 +3,7 @@ import { LOCAL_STORAGE_KEYS } from "./constants"
 import * as dateFormatter from 'dateformat'
 
 import { createHashHistory } from 'history'
+import { IUser } from "../models/user.model"
 
 
 
@@ -25,6 +26,19 @@ export function getAccessTokenFromLocalStorage(): string {
     return sessionStorageData as string
   } else {
     return '';
+  }
+}
+
+export function getUserFromLocalStorage(): IUser | null {
+  const localStorageData = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_USER_KEY)
+  const sessionStorageData = sessionStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_USER_KEY)
+
+  if(localStorageData) {
+    return JSON.parse(localStorageData) as IUser
+  } else if(sessionStorageData) {
+    return JSON.parse(sessionStorageData) as IUser
+  } else {
+    return null;
   }
 }
 
