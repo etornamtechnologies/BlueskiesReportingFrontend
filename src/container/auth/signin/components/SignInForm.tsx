@@ -52,7 +52,7 @@ const SignInForm: React.FC<Props> = ({
         <Button type="primary" htmlType="submit" className="login-form-button" style={{ width: '100%' }}>
           Log in
         </Button>
-        Or <a href="">register now!</a>
+        Or <a href="/auth/signup">register now!</a>
       </Form.Item>
       </Form>
     </>

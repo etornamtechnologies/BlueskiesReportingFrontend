@@ -1,19 +1,28 @@
 import { UserAddOutlined } from '@ant-design/icons'
 import { Col, Row, Card, Form } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../redux_store/hook'
 import { Creators as AuthCreators } from '../../../services/redux/auth/actions'
 import { IAuthState, ISignUpRequest } from '../../../models/auth.model'
 import SignUpForm from './components/SignUpForm'
 import { ERole } from '../../../models/user.model'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpIndex: React.FC = () => {
   const {
-    posting
+    posting,
+    post_success
   } = useAppSelector(state => state.auth) as IAuthState
+  
 
   const [form] = Form.useForm()
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if(!posting && post_success) {
+      form.resetFields()
+    }
+  }, [post_success, posting])
 
   return (
     <Row style={{ height: '100vh', width: '100%' }}>

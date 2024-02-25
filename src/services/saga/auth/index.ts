@@ -34,6 +34,8 @@ export function* signUp(action: IAuthAction) {
     const response: IUser = yield call(apiService.signUp, payload)
     console.log('response auth signup', response)
     yield put(Creators.signUpSuccess(response))
+    message.success('Account registered!')
+    window.location.href = '/auth/signin'
   } catch(error: AxiosError | unknown) {
     const errorMessage = getErrorMessageFromApiError(error) || 'Network Error!'
     yield put(Creators.signUpFailure(errorMessage))
