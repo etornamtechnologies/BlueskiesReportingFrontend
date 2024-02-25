@@ -25,12 +25,11 @@ export const fetchUsers = (state = INITIAL_STATE, action: IUserAction): IUserSta
 
 export const fetchUsersSuccess = (state = INITIAL_STATE, action: IUserAction): IUserState => {
   console.log('reducer fetch prodctio action', action)
-  const { hasNext, data } = action.data as IPaginatedData<IUser[]>
+  const data = action.data as IUser[]
   return {
     ...state,
     fetching: false,
     users: data,
-    has_next: hasNext
   }
 }
 

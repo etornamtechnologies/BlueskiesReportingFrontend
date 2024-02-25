@@ -35,19 +35,6 @@ const AddUserForm: React.FC<Props> = ({
         onFinish={onSubmit}
         form={form}
       >
-        <Form.Item
-          label='User Category'
-          name='productCategoryId'
-          rules={[{required: true, message: 'User category cannot be empty'}]}
-        >
-          <Select loading={loadingUserCategories}>
-            {Object.keys(ERole).map(role => (
-              <Select.Option key={role} value={role}>
-                {role}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
         <Form.Item<UserFormFieldType>
           label='First Name'
           name='firstName'
@@ -68,6 +55,15 @@ const AddUserForm: React.FC<Props> = ({
           rules={[{required: true, message: 'Please select a role'}]} 
         >
           <Input />
+        </Form.Item>
+        <Form.Item name='role' label='Role'>
+          <Select>
+            {Object.keys(ERole).map(role => (
+              <Select.Option key={role} value={role}>
+                {role}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
         <Button type='primary' htmlType='submit' loading={submitting}>
           {submitBtnText}

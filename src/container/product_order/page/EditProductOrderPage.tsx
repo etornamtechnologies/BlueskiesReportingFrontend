@@ -136,6 +136,13 @@ const EditProductOrderPage: React.FC = () => {
     //eslint-disable-next-line
   }, [productOrderState.product_order])
 
+  useEffect(() => {
+    if(productOrderState.post_success && !productOrderState.posting) {
+      setEditOrderDetailVisible(false)
+      orderDetailForm.resetFields()
+    }
+  }, [productOrderState.posting, productOrderState.post_success])
+
   return (
     <AppLayout
       header={(

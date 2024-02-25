@@ -31,17 +31,17 @@ const UserIndex: React.FC = () => {
   const handleCreateSubmit = (values: any) => {
     console.log('values', values)
     const payload: ICreateUserRequest = {
-      firstName: values.name,
-      lastName: values.description,
-      email: values.weight,
-      role: values.measurementUnit,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      role: values.role,
     }
     dispatch(Creators.postUser(payload))
   }
 
   const handleEditSubmit = (values: any) => {
     const payload: ICreateUserRequest = {
-      firstName: values.firstname,
+      firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
       role: values.role,
@@ -115,7 +115,7 @@ const UserIndex: React.FC = () => {
 
       <Modal
         open={createVisible}
-        title='ADD NEW PRODUCT'
+        title='ADD NEW USER'
         footer={false}
         onCancel={() => {
           setCreateVisible(false)
@@ -127,7 +127,7 @@ const UserIndex: React.FC = () => {
             firstName: '', 
             lastName: '',
             email: '',
-            role: ERole.ADMIN
+            role: ERole.UPDATER
            }}
           onSubmit={handleCreateSubmit}
           submitting={posting}
@@ -144,7 +144,6 @@ const UserIndex: React.FC = () => {
         }}
       >
         <AddUserForm 
-
           form={editForm}
           initialValues={{ 
             firstName: selected_user?.firstName as string,

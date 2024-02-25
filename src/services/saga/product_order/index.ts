@@ -63,6 +63,7 @@ export function* putProductOrder(action: IProductOrderAction) {
     const response: IProductOrder = yield call(apiService.putProductOrder, id, payload)
     yield put(Creators.putProductOrderSuccess(response))
     message.success('Order updated!')
+    yield put(Creators.fetchProductOrder(id))
   } catch(error: any | unknown) {
     yield put(Creators.putProductOrderFailure(getErrorMessageFromApiError(error)))
   }
@@ -76,6 +77,7 @@ export function* putProductOrderDetail(action: IProductOrderAction) {
     const response: IProductOrder = yield call(apiService.putProductOrderDetail, productOrderId, orderDetailId, payload)
     yield put(Creators.putProductOrderSuccess(response))
     message.success('Order updated!')
+    yield put(Creators.fetchProductOrder(productOrderId))
   } catch(error: any | unknown) {
     yield put(Creators.putProductOrderFailure(getErrorMessageFromApiError(error)))
   }
