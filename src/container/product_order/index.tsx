@@ -79,7 +79,7 @@ const ProductOrderIndex: React.FC = () => {
         icon={<PlusOutlined/>} 
         onClick={() => {
           //setCreateVisible(true)
-          navigate('/product-orders/add-new')
+          navigate('/app/product-orders/add-new')
         }}
       />
       <Row>
@@ -88,13 +88,12 @@ const ProductOrderIndex: React.FC = () => {
             product_orders={product_orders}
             loading={fetching}
             onEdit={(row: IProductOrder) => {
-              navigate(`/product-orders/edit/${row?.id}`)
+              navigate(`/app/product-orders/edit/${row?.id}`)
             }}
             onView={(row: IProductOrder) => {
-              navigate(`/product-orders/view-detail/${row.id}`)
+              navigate(`/app/product-orders/view-detail/${row.id}`)
             }}
             onDelete={(row: IProductOrder) => {
-              console.log('row', row)
               dispatch(Creators.setSelectedProductOrder(row))
               setDeleteVisible(true)
             }}

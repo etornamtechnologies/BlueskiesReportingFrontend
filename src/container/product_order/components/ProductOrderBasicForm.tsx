@@ -12,7 +12,7 @@ export type ProductOrderFormFieldType = {
 }
 
 type Props = {
-  initialValues: { customerId: string, airlineId: string, flight: string, description: string, requiredDate: string },
+  initialValues: { customerId: string, airlineId: string, flight: string, description: string, requiredDate:any },
   form: FormInstance
   onSubmit: (values: any) => void
   customers: Array<ICustomer>
@@ -37,7 +37,9 @@ const ProductOrderBasicForm: React.FC<Props> = ({
       <Form
         autoComplete='off'
         layout='vertical'
-        initialValues={{...initialValues, requiredDate: moment(initialValues.requiredDate, 'YYYY-MM-DD')}}
+        initialValues={{
+          ...initialValues, requiredDate: moment('2020-06-09T12:40:14+0000')
+        }}
         form={form}
         onFinish={(values) => onSubmit(values)}
         variant='outlined'
@@ -83,8 +85,7 @@ const ProductOrderBasicForm: React.FC<Props> = ({
             >
               <DatePicker
                 style={{ width: "100%" }}
-                format="YYYY-MM-DD"
-                value={moment(Date.now()) as any}
+                format="YYYY-MM-DD HH:mm:ss"
               />
             </Form.Item>
             <Form.Item<ProductOrderFormFieldType>

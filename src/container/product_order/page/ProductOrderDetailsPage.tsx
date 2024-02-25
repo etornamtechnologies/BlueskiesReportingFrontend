@@ -110,7 +110,7 @@ const ProductOrderDetailPage: React.FC = () => {
           <Col span={12}>
             <Breadcrumb>
               <Breadcrumb.Item
-                onClick={() => navigate('/product-orders')}
+                onClick={() => navigate('/app/product-orders')}
               >
                 ORDERS
               </Breadcrumb.Item>

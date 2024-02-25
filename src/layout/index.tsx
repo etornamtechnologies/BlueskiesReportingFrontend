@@ -14,6 +14,7 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 import AuthMiddleware from '../middlewares/auth.middleware';
+import useAuth from '../hooks/useAuth';
 const { Sider, Header, Content, Footer } = Layout;
 
 type Props = {
@@ -40,7 +41,7 @@ const AppLayout: React.FC<Props> = ({
     console.log('click ', e);
     //setCurrent(e.key);
     if(e.keyPath[0] === '/') {
-      navigate('/')
+      navigate('/app')
     } else {
       navigate(`/app/${e.keyPath.join('/')}`)
     }
@@ -69,6 +70,8 @@ const AppLayout: React.FC<Props> = ({
     }
     //eslint-disable-next-line
   }, [current])
+
+  useAuth()
 
   return (
     <AuthMiddleware>

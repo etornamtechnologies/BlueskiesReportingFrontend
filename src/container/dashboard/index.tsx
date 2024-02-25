@@ -1,8 +1,13 @@
 import { Breadcrumb, Col, Row } from "antd"
 import AppLayout from "../../layout"
 import BreadcrumbItem from "antd/es/breadcrumb/BreadcrumbItem"
+import useAuth from "../../hooks/useAuth"
+
+
 
 const DashboardIndex: React.FC = () => {
+  useAuth()
+
   return (
     <AppLayout>
       <Row>

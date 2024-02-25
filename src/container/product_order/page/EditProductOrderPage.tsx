@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Col, Form, Input, Modal, Row, Select, Space, Spin, Table, TableColumnsType } from "antd"
+import { Breadcrumb, Button, Card, Col, DatePicker, Form, Input, Modal, Row, Select, Space, Spin, Table, TableColumnsType } from "antd"
 import AppLayout from "../../../layout"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -10,11 +10,13 @@ import { Creators as ProductCreators } from "../../../services/redux/product/act
 import { IProductOrderState, IOrderDetail, IOrderFulfillment, IUpdateProductOrderDetailRequest, IUpdateProductOrderRequest } from "../../../models/product.order.model"
 import { ColumnsType } from "antd/es/table"
 import { prettifyDateTime } from "../../../utils/common.helper"
-import ProductOrderBasicForm from "../components/ProductOrderBasicForm"
+import ProductOrderBasicForm, { ProductOrderFormFieldType } from "../components/ProductOrderBasicForm"
 import { ICustomerState } from "../../../models/customer.model"
 import { IAirlineState } from "../../../models/airline.model"
 import { EditOutlined } from "@ant-design/icons"
 import { IProductState } from "../../../models/product.model"
+import moment from "moment"
+
 
 const EditProductOrderPage: React.FC = () => {
   const navigate = useNavigate()
@@ -106,18 +108,18 @@ const EditProductOrderPage: React.FC = () => {
     //eslint-disable-next-line
   }, [orderId])
 
-  useEffect(() => {
-    if(productOrderState.product_order) {
-      const order = productOrderState.product_order
-      orderForm.setFieldsValue({
-        airlineId: order.airline.id,
-        customerId: order.customer.id,
-        requiredDate: order.requiredDate,
-        
-      })
-    }
-    //eslint-disable-next-line
-  }, [productOrderState.product_order])
+  // useEffect(() => {
+  //   if(productOrderState.product_order) {
+  //     const order = productOrderState.product_order
+  //     orderForm.setFieldsValue({
+  //       airlineId: order.airline.id,
+  //       customerId: order.customer.id,
+  //       requiredDate: order.requiredDate,
+
+  //     })
+  //   }
+  //   //eslint-disable-next-line
+  // }, [productOrderState.product_order])
 
   useEffect(() => {
     if (productOrderState.product_order) {
@@ -127,7 +129,8 @@ const EditProductOrderPage: React.FC = () => {
         airlineId: productOrder.airline.id,
         description: productOrder.description,
         flight: productOrder.flight,
-        requiredDate: productOrder.requiredDate
+        //requiredDate: productOrder.requiredDate,
+        requiredDate: moment(productOrder.requiredDate, 'YYYY-MM-DD')
       })
     }
     //eslint-disable-next-line
@@ -139,7 +142,7 @@ const EditProductOrderPage: React.FC = () => {
         <Row>
           <Col span={24}>
             <Breadcrumb>
-              <Breadcrumb.Item onClick={() => navigate('/product-orders')}>
+              <Breadcrumb.Item onClick={() => navigate('/app/product-orders')}>
                 ORDERS
               </Breadcrumb.Item>
               <Breadcrumb.Item>
@@ -155,30 +158,98 @@ const EditProductOrderPage: React.FC = () => {
           <Card>
             <Row>
               <Col span={24}>
-                <ProductOrderBasicForm
-                  form={orderForm}
+                <Form
+                  autoComplete='off'
+                  layout='vertical'
                   initialValues={{
-                    customerId: productOrderState.product_order?.customer?.id as string,
-                    airlineId: productOrderState.product_order?.airline?.id as string,
-                    description: productOrderState.product_order?.description as string,
-                    flight: productOrderState.product_order?.flight as string,
-                    requiredDate: productOrderState.product_order?.requiredDate as string
+                    customerId: productOrderState?.product_order?.customer?.id,
+                    airlineId: productOrderState?.product_order?.airline.id,
+                    flight: productOrderState?.product_order?.flight,
+                    description: productOrderState?.product_order?.description,
+                    requiredDate: moment(productOrderState?.product_order?.requiredDate)
                   }}
-                  customers={customerState.customers}
-                  fetchingCustomers={customerState.fetching}
-                  airlines={airlineState.airlines}
-                  fetchingAirlines={airlineState.fetching}
-                  onSubmit={(values: any) => {
-                    const payload: IUpdateProductOrderRequest = {
-                      customerId: values?.customerId as string,
-                      airlineId: values?.airlineId as string,
-                      description: values?.description as string,
-                      flight: values?.flight as string,
-                      requiredDate: values?.requiredDate as string,
+                  form={orderForm}
+                  onFinish={(values: any) => {
+                    const paylaod: IUpdateProductOrderRequest = {
+                      customerId: values?.customerId,
+                      airlineId: values.airlineId,
+                      description: values.description,
+                      flight: values.flight,
+                      requiredDate: values.requiredDate
                     }
-                    dispatch(ProductOrderCreators.putProductOrder(productOrderState.product_order?.id, payload))
+                    dispatch(ProductOrderCreators.putProductOrder(productOrderState.product_order?.id, paylaod))
                   }}
-                />
+                >
+                  <Row>
+                    <Col span={11}>
+                      <Form.Item
+                        label='Customer'
+                        name='customerId'
+                        rules={[{ required: true, message: 'Customer cannot be empty' }]}
+                      >
+                        <Select loading={customerState.fetching}>
+                          {customerState.customers.map(customer => (
+                            <Select.Option key={customer.id} value={customer.id}>
+                              {customer.name}
+                            </Select.Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={11} offset={2}>
+                      <Form.Item
+                        label='Airline'
+                        name='airlineId'
+                        rules={[{ required: true, message: 'Airline cannot be empty' }]}
+                      >
+                        <Select loading={airlineState.fetching}>
+                          {airlineState.airlines.map(airline => (
+                            <Select.Option key={airline.id} value={airline.id}>
+                              {airline.name}
+                            </Select.Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={11}>
+                      <Form.Item<ProductOrderFormFieldType>
+                        label='Flight'
+                        name='flight'
+                        rules={[{ required: true, message: 'Flight cannot be empty' }]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col span={11} offset={2}>
+                      <Form.Item<ProductOrderFormFieldType>
+                        label='Description'
+                        name='description'
+                        rules={[{ required: true, message: 'Description cannot be empty' }]}
+                      >
+                        <Input.TextArea rows={2} placeholder="Description..." />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={24}>
+                      <Form.Item
+                        label="Required Date"
+                        name="requiredDate"
+                      >
+                        <DatePicker
+                          format="YYYY-MM-DD"
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={24}>
+                      <Button type="primary" htmlType="submit">UPDATE</Button>
+                    </Col>
+                  </Row>
+                </Form>
               </Col>
             </Row>
           </Card>
@@ -242,7 +313,7 @@ const EditProductOrderPage: React.FC = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label='Ordered Quantity' name='quantity' rules={[{required: true, message: "Quantity is required"}]}>
+          <Form.Item label='Ordered Quantity' name='quantity' rules={[{ required: true, message: "Quantity is required" }]}>
             <Input type='number' />
           </Form.Item>
           <Button loading={productOrderState.posting} type="primary" htmlType="submit" >UPDATE</Button>

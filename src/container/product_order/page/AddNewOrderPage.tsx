@@ -116,7 +116,7 @@ const AddNewOrderPage: React.FC = () => {
         <Row>
           <Col span={12}>
           <Breadcrumb>
-            <Breadcrumb.Item onClick={() => navigate('/product-orders')}>
+            <Breadcrumb.Item onClick={() => navigate('/app/product-orders')}>
               ORDERS
             </Breadcrumb.Item>
             <Breadcrumb.Item>

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import ProductCategoryIndex from "./container/product_categories";
 import DashboardIndex from "./container/dashboard";
 import ProductIndex from "./container/product";
@@ -112,4 +112,8 @@ export const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: '/',
+    element: <Navigate to='/app' />
+  }
 ])
