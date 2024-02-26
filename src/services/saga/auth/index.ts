@@ -7,6 +7,7 @@ import { AxiosError } from 'axios'
 import { IAuthAction, ILoginRequest, ILoginResponse, ISignUpRequest } from '../../../models/auth.model'
 import { message } from 'antd'
 import { IUser } from '../../../models/user.model'
+import { ROUTES } from '../../../utils/constants'
 
 const apiService: ApiService = new ApiService()
 
@@ -42,11 +43,18 @@ export function* signUp(action: IAuthAction) {
   }
 }
 
+export function signOut(action: IAuthAction) {
+  localStorage.removeItem('AUTH-USER')
+  localStorage.removeItem('AUTH-TOKEN')
+  window.location.href = ROUTES.LOGIN
+}
+
 
 function* userSaga() {
   yield all([
     takeLeading(Types.SIGN_IN, signIn),
     takeLeading(Types.SIGN_UP, signUp),
+    takeLeading(Types.SIGN_OUT, signOut)
   ])
 }
 

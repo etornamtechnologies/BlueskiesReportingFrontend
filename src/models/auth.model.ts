@@ -25,6 +25,7 @@ export interface IAuthState {
   posting: boolean
   post_success: boolean
   error: string | null
+  user: IUser | null
 }
 
 export interface IAuthAction {

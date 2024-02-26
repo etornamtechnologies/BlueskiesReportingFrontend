@@ -12,6 +12,8 @@ export default createTypes(
     SIGN_UP_SUCCESS
     SIGN_UP_FAILURE
 
+    SIGN_OUT
+
     RESET_AUTH
   `,
 )

@@ -10,6 +10,9 @@ const { Types, Creators } = createActions(
     signUpSuccess: ['data', 'message'],
     signUpFailure: ['error'],
 
+    signOut: null,
+  
+
     resetAuth: null
   }
 )

@@ -1,6 +1,7 @@
 import { createReducer } from 'reduxsauce'
 import Types from './actionTypes'
 import { IAuthState, IAuthAction, ILoginResponse } from '../../../models/auth.model'
+import { IUser } from '../../../models/user.model'
 
 
 export const INITIAL_STATE: IAuthState = {
@@ -8,7 +9,8 @@ export const INITIAL_STATE: IAuthState = {
   expired_in: 0,
   posting: false,
   post_success: false,
-  error: null
+  error: null,
+  user: localStorage.getItem('AUTH-USER') ? JSON.parse(localStorage.getItem('AUTH-USER') as string) as IUser : null
 }
 
 
@@ -22,13 +24,14 @@ export const signIn = (state = INITIAL_STATE, action: IAuthAction): IAuthState =
 }
 
 export const signInSuccess = (state = INITIAL_STATE, action: IAuthAction): IAuthState => {
-  const { token, expiredIn } = action.data as ILoginResponse
+  const { token, expiredIn, user } = action.data as ILoginResponse
   return {
     ...state,
     access_token: token,
     expired_in: expiredIn,
     posting: false,
-    post_success: true
+    post_success: true,
+    user: user
   }
 }
 
@@ -68,6 +71,12 @@ export const signUpFailure = (state = INITIAL_STATE, action: IAuthAction): IAuth
   }
 }
 
+export const signOut = (state = INITIAL_STATE, action: IAuthAction): IAuthState => {
+  return {
+    ...state
+  }
+}
+
 
 export const resetAuth = (state = INITIAL_STATE, action: IAuthAction): IAuthState => {
   return {
@@ -88,6 +97,8 @@ export const HANDLERS = {
   [Types.SIGN_UP]: signUp,
   [Types.SIGN_UP_SUCCESS]: signUpSuccess,
   [Types.SIGN_UP_FAILURE]: signUpFailure,
+
+  [Types.SIGN_OUT]: signOut,
 
   [Types.RESET_AUTH]: resetAuth,
 
