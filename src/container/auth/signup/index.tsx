@@ -7,6 +7,7 @@ import { IAuthState, ISignUpRequest } from '../../../models/auth.model'
 import SignUpForm from './components/SignUpForm'
 import { ERole } from '../../../models/user.model'
 import { useNavigate } from 'react-router-dom'
+import logo from '../../../assets/img/signup.jpg'
 
 const SignUpIndex: React.FC = () => {
   const {
@@ -26,11 +27,11 @@ const SignUpIndex: React.FC = () => {
 
   return (
     <Row style={{ height: '100vh', width: '100%' }}>
-      <Col md={12} lg={12} sm={0} style={{  }}>
-
+      <Col md={12} lg={12} sm={0} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+        <img src={logo} alt='signup' style={{ width: '80%', height: '80%' }} />
       </Col>
-      <Col md={12} lg={12} sm={24} xs={24} style={{ padding: '90px 60px 0 60px' }}>
-        <Card>
+      <Col md={12} lg={12} sm={24} xs={24} style={{ boxShadow: '-2px 0 6px rgba(0, 0, 0, 0.09)' }}>
+        <Card style={{ padding: 30 }}>
           <Row>
             <Col span={24} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
               <UserAddOutlined />

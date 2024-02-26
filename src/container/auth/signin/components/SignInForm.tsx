@@ -43,9 +43,9 @@ const SignInForm: React.FC<Props> = ({
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <a className="login-form-forgot" href="">
+        {/* <a className="login-form-forgot" href="">
           Forgot password
-        </a>
+        </a> */}
       </Form.Item>
 
       <Form.Item>

@@ -74,6 +74,7 @@ const SignUpForm: React.FC<Props> = ({
             Submit
           </Button>
         </Form.Item>
+        Or <a href="/auth/signin">Sign in!</a>
       </Form>
     </>
   )
