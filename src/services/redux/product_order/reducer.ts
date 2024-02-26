@@ -150,6 +150,34 @@ export const putProductOrderDetailFailure = (state = INITIAL_STATE, actions: IPr
 }
 
 
+//======================Put Order Fulfillment=============
+
+export const putProductOrderFulfillment = (state = INITIAL_STATE, actions: IProductOrderAction): IProductOrderState => {
+  return {
+    ...state,
+    posting: true,
+    error: ''
+  }
+}
+
+export const putProductOrderFulfillmentSuccess = (state = INITIAL_STATE, actions: IProductOrderAction): IProductOrderState => {
+  const data = actions.data as IProductOrder
+  return {
+    ...state,
+    posting: false,
+    product_order: data,
+    post_success: true
+  }
+}
+
+export const putProductOrderFulfillmentFailure = (state = INITIAL_STATE, actions: IProductOrderAction): IProductOrderState => {
+  return {
+    ...state,
+    posting: false,
+    error: actions.error as string
+  }
+}
+
 //======================Create=============
 
 export const postProductOrder = (state = INITIAL_STATE, actions: IProductOrderAction): IProductOrderState => {
@@ -287,6 +315,10 @@ export const HANDLERS = {
   [Types.PUT_PRODUCT_ORDER_DETAIL]: putProductOrderDetail,
   [Types.PUT_PRODUCT_ORDER_DETAIL_SUCCESS]: putProductOrderDetailSuccess,
   [Types.PUT_PRODUCT_ORDER_DETAIL_FAILURE]: putProductOrderDetailFailure,
+
+  [Types.PUT_PRODUCT_ORDER_FULFILLMENT]: putProductOrderFulfillment,
+  [Types.PUT_PRODUCT_ORDER_FULFILLMENT_SUCCESS]: putProductOrderFulfillmentSuccess,
+  [Types.PUT_PRODUCT_ORDER_FULFILLMENT_FAILURE]: putProductOrderFulfillmentFailure,
 
   [Types.DELETE_PRODUCT_ORDER]: deleteProductOrder,
   [Types.DELETE_PRODUCT_ORDER_SUCCESS]: deleteProductOrderSuccess,

@@ -22,6 +22,10 @@ const { Types, Creators } = createActions(
     putProductOrderDetailSuccess: ['data'],
     putProductOrderDetailFailure: ['error'],
 
+    putProductOrderFulfillment: ['productOrderId', 'orderFulfillmentId','payload'],
+    putProductOrderFulfillmentSuccess: ['data'],
+    putProductOrderFulfillmentFailure: ['error'],
+
     deleteProductOrder: ['id'],
     deleteProductOrderSuccess: ['data'],
     deleteProductOrderFailure: ['error'],

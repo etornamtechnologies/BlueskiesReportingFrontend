@@ -44,6 +44,14 @@ class ProductOrderApiService {
     })
   }
 
+  public async putProductOrderFulfillment(id: string, orderFulfillmentId: string, payload: {quantity: number}): Promise<IProductOrder> {
+    return apiService.axiosCall<IProductOrder>({
+      method: 'PUT',
+      url: `/productOrders/${id}/orderFulfillments/${orderFulfillmentId}`,
+      data: payload
+    })
+  }
+
   public async deleteProductOrder(id: string): Promise<IProductOrder> {
     return apiService.axiosCall<IProductOrder>({
       method: 'DELETE',

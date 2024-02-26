@@ -10,7 +10,7 @@ import { Creators as ProductCreators } from "../../../services/redux/product/act
 import { IProductOrderState, IOrderDetail, IOrderFulfillment, IUpdateProductOrderDetailRequest, IUpdateProductOrderRequest } from "../../../models/product.order.model"
 import { ColumnsType } from "antd/es/table"
 import { prettifyDateTime } from "../../../utils/common.helper"
-import ProductOrderBasicForm, { ProductOrderFormFieldType } from "../components/ProductOrderBasicForm"
+import { ProductOrderFormFieldType } from "../components/ProductOrderBasicForm"
 import { ICustomerState } from "../../../models/customer.model"
 import { IAirlineState } from "../../../models/airline.model"
 import { EditOutlined } from "@ant-design/icons"
@@ -31,10 +31,14 @@ const EditProductOrderPage: React.FC = () => {
   const [editOrderDetailVisible, setEditOrderDetailVisible] = useState<boolean>(false)
   const [selectedOrderDetail, setSelectedOrderDetail] = useState<IOrderDetail | null>(null)
 
+  const [editFulfilmentVisible, setEditFulfilmentVisible] = useState<boolean>(false)
+  const [selectedFulfilment, setSelectedFulfilment] = useState<IOrderFulfillment | null>(null)
+
 
   const [orderForm] = Form.useForm()
 
   const [orderDetailForm] = Form.useForm()
+  const [fulfilmentForm] = Form.useForm()
 
 
 
@@ -88,6 +92,21 @@ const EditProductOrderPage: React.FC = () => {
       { title: 'Created By', dataIndex: 'createdBy', key: 'createdby', render: text => text || 'N/A' },
       { title: 'Created On', dataIndex: 'createdAt', key: 'createdAt', render: text => prettifyDateTime(text) },
       { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
+      {
+        title: 'Actions', 
+        dataIndex: 'actions',
+        key: 'actions',
+        render: (text, row) => (
+          <EditOutlined 
+            onClick={() => {
+              // setSelectedOrderDetail(row)
+              setSelectedFulfilment(row)
+              fulfilmentForm.setFieldsValue({ quantity: row.quantity })
+              setEditFulfilmentVisible(true)
+            }} 
+          />
+        )
+      }
     ];
     return <Table columns={expandedColumns} dataSource={row.orderFulfillments} pagination={false} rowKey="id" />
   }
@@ -140,7 +159,10 @@ const EditProductOrderPage: React.FC = () => {
     if(productOrderState.post_success && !productOrderState.posting) {
       setEditOrderDetailVisible(false)
       orderDetailForm.resetFields()
+      setEditFulfilmentVisible(false)
+      fulfilmentForm.resetFields()
     }
+    //eslint-disable-next-line
   }, [productOrderState.posting, productOrderState.post_success])
 
   return (
@@ -320,6 +342,38 @@ const EditProductOrderPage: React.FC = () => {
               ))}
             </Select>
           </Form.Item>
+          <Form.Item label='Quantity Ordered' name='quantity' rules={[{ required: true, message: "Quantity is required" }]}>
+            <Input type='number' />
+          </Form.Item>
+          <Button loading={productOrderState.posting} type="primary" htmlType="submit" >UPDATE</Button>
+        </Form>
+      </Modal>
+
+      <Modal
+        open={editFulfilmentVisible}
+        onCancel={() => {
+          setEditFulfilmentVisible(false)
+          setSelectedFulfilment(null)
+        }}
+        style={{ padding: 20 }}
+        title="Edit Fulfilment"
+        footer={false}
+        maskClosable={false}
+      >
+        <Form
+          initialValues={{
+            quantity: selectedOrderDetail?.quantity
+          }}
+          onFinish={(values: any) => {
+            const payload: {quantity: number} = {
+              quantity: values?.quantity
+            }
+            console.log('selected orderd detail', selectedOrderDetail)
+            dispatch(ProductOrderCreators.putProductOrderFulfillment(productOrderState.product_order?.id as string, selectedFulfilment?.id as string, payload))
+          }}
+          layout='vertical'
+          form={fulfilmentForm}
+        >
           <Form.Item label='Ordered Quantity' name='quantity' rules={[{ required: true, message: "Quantity is required" }]}>
             <Input type='number' />
           </Form.Item>

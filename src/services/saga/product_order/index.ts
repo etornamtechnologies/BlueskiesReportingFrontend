@@ -75,11 +75,25 @@ export function* putProductOrderDetail(action: IProductOrderAction) {
   const payload = action.payload as IUpdateProductOrderDetailRequest
   try {
     const response: IProductOrder = yield call(apiService.putProductOrderDetail, productOrderId, orderDetailId, payload)
-    yield put(Creators.putProductOrderSuccess(response))
-    message.success('Order updated!')
+    yield put(Creators.putProductOrderDetailSuccess(response))
+    message.success('Order detail updated!')
     yield put(Creators.fetchProductOrder(productOrderId))
   } catch(error: any | unknown) {
-    yield put(Creators.putProductOrderFailure(getErrorMessageFromApiError(error)))
+    yield put(Creators.putProductOrderDetailFailure(getErrorMessageFromApiError(error)))
+  }
+}
+
+export function* putProductOrderFulfillment(action: IProductOrderAction) {
+  const productOrderId = action.productOrderId as string
+  const orderFulfillmentId = action.orderFulfillmentId as string
+  const payload = action.payload as IUpdateProductOrderDetailRequest
+  try {
+    const response: IProductOrder = yield call(apiService.putProductOrderFulfillment, productOrderId, orderFulfillmentId, payload)
+    yield put(Creators.putProductOrderFulfillmentSuccess(response))
+    message.success('Order Fulfilment updated!')
+    yield put(Creators.fetchProductOrder(productOrderId))
+  } catch(error: any | unknown) {
+    yield put(Creators.putProductOrderFulfillmentFailure(getErrorMessageFromApiError(error)))
   }
 }
 
@@ -106,7 +120,8 @@ function* userSaga() {
     takeLeading(Types.PUT_PRODUCT_ORDER, putProductOrder),
     takeLeading(Types.DELETE_PRODUCT_ORDER, deleteProductOrder),
     takeLeading(Types.ADD_FULFILLMENT, addFulfillment),
-    takeLeading(Types.PUT_PRODUCT_ORDER_DETAIL, putProductOrderDetail)
+    takeLeading(Types.PUT_PRODUCT_ORDER_DETAIL, putProductOrderDetail),
+    takeLeading(Types.PUT_PRODUCT_ORDER_FULFILLMENT, putProductOrderFulfillment)
   ])
 }
 
